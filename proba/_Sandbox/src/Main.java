@@ -1,11 +1,6 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.lang.reflect.*;
+import java.text.*;
+import java.util.*;
 
 public class Main {
 	public static void main (String args []) {
@@ -27,11 +22,21 @@ public class Main {
 		comunidadAnillo.addElement("Boromir");
 		comunidadAnillo.addElement("Gimli");
 		comunidadAnillo.addElement("Gandalf");
-				
+		
+		/*Class objeto = comunidadAnillo.getClass();
+		objeto.getName();
+		Method[] metodos = objeto.getMethods();
+		for (int i=0; i<metodos.length; i++) {
+			System.out.print(metodos[i].getName() + "(");
+			Parameter[] parametros = metodos[i].getParameters();
+			for (int j=0; j<parametros.length; j++)
+				System.out.print(parametros[j].getName() + " ");
+			System.out.println(")");
+		}*/
+		
 		/*for (String integrante : comunidadAnillo)
 			System.out.print(integrante + " ");
-		System.out.println();*/
-		
+		System.out.println();*/		
 		Enumeration<String> enumComunidad = comunidadAnillo.elements();
 		while (enumComunidad.hasMoreElements())
 			System.out.println(enumComunidad.nextElement());
@@ -85,14 +90,14 @@ public class Main {
 						" (" + byteStringFormat(temp) + ")");
 				byte mascara = (byte) 0x0A;
 				temp = (byte)((dato & mascara) & 0xFF);
-				System.out.println ("Operacion AND con la máscara " + byteStringFormat(mascara) + " : " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion AND con la máscara " + byteStringFormat(mascara) + " : " + 
+						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
 				temp = (byte)((dato | mascara) & 0xFF);
-				System.out.println ("Operacion OR con la máscara " + byteStringFormat(mascara) + " : " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion OR con la máscara " + byteStringFormat(mascara) + " : " + 
+						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
 				temp = (byte)((dato ^ mascara) & 0xFF);
-				System.out.println ("Operacion XOR con la máscara " + byteStringFormat(mascara) + " : " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion XOR con la máscara " + byteStringFormat(mascara) + " : " + 
+						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
 				
 				temp = (byte) ((~dato) & 0xFF);
 				System.out.println ("Complemento a 1: " + String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
