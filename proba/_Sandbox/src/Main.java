@@ -17,20 +17,27 @@ public class Main {
 	
 	/** pruebas con implementacion de interfaces y sobrecarga de metodos*/
 	private static void testInterfaces() {
-		Complejo comp1 = new Complejo();
-		Complejo comp2 = new Complejo(5);
-		Complejo comp3 = new Complejo(2.3, 8);
-		Complejo comp4 = new Complejo(5.43, 12.5);
+		Complejo comp1 = new Complejo(1, 1);
+		Complejo comp2 = new Complejo(-1, 1);
+		Complejo comp3 = new Complejo(-1, -1);
+		Complejo comp4 = new Complejo(1, -1);
 		
 		//char angulo = '\u299F';
-		char angulo = '<';
+		char angulo = '<';		
+		System.out.println(comp1.toString() + " = " + comp1.getModulo() + angulo + comp1.getArgumento() + 
+				" (" + comp1.hashCode() + ")");
+		System.out.println(comp2.toString() + " = " + comp2.getModulo() + angulo + comp2.getArgumento() + 
+				" (" + comp2.hashCode() + ")");
+		System.out.println(comp3.toString() + " = " + comp3.getModulo() + angulo + comp3.getArgumento() + 
+				" (" + comp3.hashCode() + ")");
+		System.out.println(comp4.toString() + " = " + comp4.getModulo() + angulo + comp4.getArgumento() + 
+				" (" + comp4.hashCode() + ")");
 		
-		System.out.println(comp1.toString() + " = " + comp1.getModulo() + angulo + comp1.getArgumento());
-		System.out.println(comp2.toString() + " = " + comp2.getModulo() + angulo + comp2.getArgumento());
-		System.out.println(comp3.toString() + " = " + comp3.getModulo() + angulo + comp3.getArgumento());
-		System.out.println(comp4.toString() + " = " + comp4.getModulo() + angulo + comp4.getArgumento());
+		System.out.println(comp3.compareTo(comp4));
 		
-		System.out.println(comp1.compareTo(comp3));
+		Complejo[] arrayRandom = Complejo.getRandomArray(50, 10, 823);
+		for (int i=0; i<arrayRandom.length; i++) 
+			System.out.println(i + ": " + arrayRandom[i].toString());
 	}
 
 	/** pruebas con clases String, StringBuilder y StringTokenizer */
