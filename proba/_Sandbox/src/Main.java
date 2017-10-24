@@ -11,10 +11,29 @@ public class Main {
 		//testHerencias();
 		//testClaseVector();
 		//testLeerTeclado();
-		testCadenasTexto();
+		//testCadenasTexto();
+		testInterfaces();
 	}
 	
-	/* pruebas con clases String, StringBuilder y StringTokenizer */
+	/** pruebas con implementacion de interfaces y sobrecarga de metodos*/
+	private static void testInterfaces() {
+		Complejo comp1 = new Complejo();
+		Complejo comp2 = new Complejo(5);
+		Complejo comp3 = new Complejo(2.3, 8);
+		Complejo comp4 = new Complejo(5.43, 12.5);
+		
+		//char angulo = '\u299F';
+		char angulo = '<';
+		
+		System.out.println(comp1.toString() + " = " + comp1.getModulo() + angulo + comp1.getArgumento());
+		System.out.println(comp2.toString() + " = " + comp2.getModulo() + angulo + comp2.getArgumento());
+		System.out.println(comp3.toString() + " = " + comp3.getModulo() + angulo + comp3.getArgumento());
+		System.out.println(comp4.toString() + " = " + comp4.getModulo() + angulo + comp4.getArgumento());
+		
+		System.out.println(comp1.compareTo(comp3));
+	}
+
+	/** pruebas con clases String, StringBuilder y StringTokenizer */
 	private static void testCadenasTexto() {
 		String cadena = "I must not fear.\r\n" + 
 				"\r\n" + 
@@ -66,10 +85,7 @@ public class Main {
 		posicion = 0;
 		while (st.hasMoreTokens()) {
 			System.out.println((posicion++) + ": \"" + st.nextToken() + "\"");
-		}
-		
-		
-		
+		}		
 	}
 
 	/** snippet para leer una línea del teclado con BufferedReader */
