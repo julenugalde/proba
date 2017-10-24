@@ -1,3 +1,4 @@
+import java.io.*;
 import java.lang.reflect.*;
 import java.text.*;
 import java.util.*;
@@ -8,9 +9,83 @@ public class Main {
 		//testClassScanner();
 		//testFlags();
 		//testHerencias();
-		testClaseVector();
+		//testClaseVector();
+		//testLeerTeclado();
+		testCadenasTexto();
 	}
 	
+	/* pruebas con clases String, StringBuilder y StringTokenizer */
+	private static void testCadenasTexto() {
+		String cadena = "I must not fear.\r\n" + 
+				"\r\n" + 
+				"Fear is the mind-killer.\r\n" + 
+				"Fear is the little-death that brings total obliteration.\r\n" + 
+				"\r\n" + 
+				"I will face my fear.\r\n" + 
+				"I will permit it to pass over me and through me.\r\n" + 
+				"\r\n" + 
+				"And when it has gone past I will turn the inner eye to see its path.\r\n" + 
+				"Where the fear has gone there will be nothing.\r\n" + 
+				"\r\n" + 
+				"Only I will remain.";
+		//System.out.println(cadena.toUpperCase(new Locale("en", "gb")));
+		System.out.println(cadena.substring(19, 75).concat("abcdefg").toUpperCase());
+		
+		char caracter = 'x';
+		int posicion = cadena.indexOf(caracter);
+		if (posicion == -1)
+			System.err.println("No encontrado");
+		else
+			System.out.println("Posicion: " + posicion);
+			
+		byte[] bytesCadena = cadena.getBytes();
+		for (int i=0; i<bytesCadena.length; i++) {
+			System.out.println(i + " -> " + byteStringFormat(bytesCadena[i]) + " (" + 
+					String.valueOf(bytesCadena[i]) + " '" + (char)bytesCadena[i] + "')");
+		}
+		
+		StringBuilder sb1 = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder(cadena);
+			
+		System.out.println("sb1: length=" + sb1.length() + ", capacity=" + sb1.capacity());
+		System.out.println("sb2: length=" + sb2.length() + ", capacity=" + sb2.capacity());
+		
+		posicion = 0;
+		String cadenaBuscada = "ear";
+		System.out.print("Posiciones de " + cadenaBuscada + ": ");
+		while (posicion < sb2.length()) {
+			posicion = sb2.indexOf(cadenaBuscada, posicion);
+			if (posicion == -1) 
+				break;
+			System.out.print ((posicion++) + " ");
+		}
+		System.out.println();
+		
+		StringTokenizer st = new StringTokenizer(cadena);
+		System.out.println("Separacion por tokens:");
+		posicion = 0;
+		while (st.hasMoreTokens()) {
+			System.out.println((posicion++) + ": \"" + st.nextToken() + "\"");
+		}
+		
+		
+		
+	}
+
+	/** snippet para leer una línea del teclado con BufferedReader */
+	private static void testLeerTeclado() {
+		String cadena;
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
+		try {
+			cadena = br.readLine();
+			System.out.println("Cadena leida: \"" + cadena +  "\"");
+		} catch (IOException ioex) {
+			System.err.println("Error: " + ioex.getMessage());
+		}
+	}
+
+	/** pruebas con la clase Vector y enumeraciones */
 	private static void testClaseVector() {
 		Vector<String> comunidadAnillo = new Vector<String>();
 		comunidadAnillo.addElement("Frodo");
@@ -52,7 +127,7 @@ public class Main {
 	}
 
 	/** pruebas de como se visualizan las variables en herencias de clases */
-	public static void testHerencias() {
+	private static void testHerencias() {
 		A objA = new A();
 		B objB = new B();
 		C objC = new C();
@@ -64,7 +139,7 @@ public class Main {
 	}
 
 	/** test flags */
-	public static void testFlags() {
+	private static void testFlags() {
 		System.out.print("Introducir número entero entre -127 y 127: ");
 		Scanner sc = new Scanner(System.in);
 		String cadena = sc.nextLine();
