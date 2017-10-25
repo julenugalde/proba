@@ -3,6 +3,7 @@ import java.lang.reflect.*;
 import java.text.*;
 import java.util.*;
 
+@SuppressWarnings ("unused")
 public class Main {
 	public static void main (String args []) {
 		//testParseoISS();
@@ -12,13 +13,61 @@ public class Main {
 		//testClaseVector();
 		//testLeerTeclado();
 		//testCadenasTexto();
-		testInterfaces();
+		//testInterfaces();
+		testArchivos();
 	}
 	
+	/** pruebas de lectura y escritura de archivos */
+	private static void testArchivos() {
+		File archivo = new File ("c:/Temp/lorem.txt");
+		
+		//Lectura de archivo con FileReader
+		/*char[] buffer = new char[100];
+		try {
+			FileReader fr = new FileReader(archivo);
+			System.out.println("Codificación: " + fr.getEncoding());
+			int leidos = 0;
+			System.out.println("Contenido del archivo:");
+			while ((leidos = fr.read(buffer)) > 0)
+				System.out.print(new String(buffer, 0, leidos));
+			fr.close();
+		}
+		catch (IOException ioex) {
+			System.err.println("Error: " + ioex.getMessage());			
+		}*/
+		
+		//Lectura de archivo con LineNumberReader
+		/*try {
+			LineNumberReader lnr = new LineNumberReader(new FileReader(archivo));
+			while (lnr.ready()) {
+				System.out.println("Linea " + lnr.getLineNumber() + " leida: \"" + lnr.readLine() + "\"");
+			}
+			lnr.close();
+		}
+		catch (IOException ioex) {
+			System.err.println("Error de I/O: " + ioex.getMessage());
+		}*/
+		
+		//Prueba de clase que extiende a FilterReader
+		try {
+			LectorFiltrado lf = new LectorFiltrado(new FileReader (archivo));
+			int leidos;
+			char[] buffer = new char[100];
+			while ((leidos = lf.read(buffer)) > 0) {
+				System.out.println ("Leidos " + leidos + " caracteres: \"" + 
+						new String (buffer, 0, leidos) + "\"");		
+			}
+			lf.close();
+		}
+		catch (IOException ioex) {
+			System.err.println("Error de I/O: " + ioex.getMessage());
+		}
+	}
+
 	/** pruebas con implementacion de interfaces y sobrecarga de metodos*/
 	private static void testInterfaces() {
-		Complejo comp1 = new Complejo(1, 1);
-		Complejo comp2 = new Complejo(-1, 1);
+		Complejo comp1 = new Complejo(2, 3);
+		Complejo comp2 = new Complejo(1);
 		Complejo comp3 = new Complejo(-1, -1);
 		Complejo comp4 = new Complejo(1, -1);
 		
@@ -32,12 +81,20 @@ public class Main {
 				" (" + comp3.hashCode() + ")");
 		System.out.println(comp4.toString() + " = " + comp4.getModulo() + angulo + comp4.getArgumento() + 
 				" (" + comp4.hashCode() + ")");
-		
 		System.out.println(comp3.compareTo(comp4));
 		
 		Complejo[] arrayRandom = Complejo.getRandomArray(50, 10, 823);
 		for (int i=0; i<arrayRandom.length; i++) 
 			System.out.println(i + ": " + arrayRandom[i].toString());
+		
+		try {			
+			System.out.println(comp1.toString() + " / " + comp2.toString() + " = " 
+					+ comp1.dividir(comp2));
+			System.out.println("1 / " + comp3.toString() + " = " + comp3.inverso());
+		}
+		catch (ArithmeticException aex) {
+			System.err.println(aex.getMessage());
+		}
 	}
 
 	/** pruebas con clases String, StringBuilder y StringTokenizer */
@@ -151,14 +208,25 @@ public class Main {
 
 	/** pruebas de como se visualizan las variables en herencias de clases */
 	private static void testHerencias() {
+		C objC = new C();
+		System.out.println ("Valor variable static: " + objC.getNumStatic());
 		A objA = new A();
 		B objB = new B();
-		C objC = new C();
 		System.out.println("x en A: " + objA.x);
 		System.out.println("x en B: " + objB.x);
 		System.out.println("x en C: " + objC.x);
 		objC.metodoPrueba();
 		
+		A[] matriz = new A[3];
+		matriz[0] = new A();
+		matriz[1] = new B();
+		matriz[2] = new C();
+		
+		for (int i=0; i<matriz.length; i++) {
+			System.out.println(i + ": "); 
+			matriz[i].metodoA();
+			matriz[i].metodoRedef();
+		}
 	}
 
 	/** test flags */

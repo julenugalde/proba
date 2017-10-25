@@ -11,4 +11,12 @@ public class C extends B {
 		System.out.println("x de A: " + ((A)this).x);
 		
 	}
+	
+	public void metodoC() {
+		System.out.println("Metodo C ejecutado");
+	}
+	
+	public void metodoRedef() {
+		System.out.println("Metodo redefinido por la clase C");
+	}
 }
