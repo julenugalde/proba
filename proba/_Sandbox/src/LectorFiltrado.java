@@ -26,7 +26,7 @@ public class LectorFiltrado extends FilterReader {
 	
 	@Override
 	public void close() throws IOException {
-		// TODO Auto-generated method stub
+		System.out.println("Cerrando lector...");
 		super.close();
 	}
 }

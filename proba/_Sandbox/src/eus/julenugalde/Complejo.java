@@ -1,7 +1,10 @@
-
+package eus.julenugalde;
+import java.io.Serializable;
 
 /** Clase para hacer pruebas de sobrecargas de métodos, implementación de interfaces... */
-public class Complejo implements Comparable<Complejo>, Divisible {
+public class Complejo implements Comparable<Complejo>, Divisible, Serializable {
+	
+	private static final long serialVersionUID = -1513517023542056859L;
 	/** Parte real */
 	protected double real;
 	/** Parte imaginaria */
@@ -12,7 +15,7 @@ public class Complejo implements Comparable<Complejo>, Divisible {
 	 * @param real Parte real
 	 * @param imag Parte imaginaria
 	 */
-	Complejo (double real, double imag) {
+	public Complejo (double real, double imag) {
 		this.real = real;
 		this.imag = imag;		
 	}
@@ -20,7 +23,7 @@ public class Complejo implements Comparable<Complejo>, Divisible {
 	/**
 	 * Constructor por defecto, en el que se inicializa a 0+0i
 	 */
-	Complejo () {
+	public Complejo () {
 		this(0, 0);
 	}
 	
@@ -28,7 +31,7 @@ public class Complejo implements Comparable<Complejo>, Divisible {
 	 * Constructor en el que solo se especifica la parte real
 	 * @param real Parte real
 	 */
-	Complejo (double real) {
+	public Complejo (double real) {
 		this (real, 0);
 	}
 	
@@ -88,12 +91,15 @@ public class Complejo implements Comparable<Complejo>, Divisible {
 	 */
 	@Override
 	public String toString() {
-		return "(" + real + "+" + imag + "i)";
+		if (imag < 0)
+			return "(" + real + imag + "i)";
+		else
+			return "(" + real + "+" + imag + "i)";
 	}
 	
 	/**
 	 * Representación del número complejo en coordenadas polares
-	 * @return Representación del número en el formato modulo<argumento, con el argumento
+	 * @return Representación del número en el formato modulo &gt; argumento, con el argumento
 	 * en coordenadas polares en el rango [0, 2*PI)
 	 */
 	public String toStringPolar() {
@@ -117,11 +123,11 @@ public class Complejo implements Comparable<Complejo>, Divisible {
 	}
 	
 	/**
-	 * Implementación del interface Comparable<Complejo>. Compara dos números complejos en base 
+	 * Implementación del interface {@link Comparable}. Compara dos números complejos en base 
 	 * al módulo y, en caso de igualdad, la parte real
 	 * @param comp	Número a comparar
 	 * @return Devuelve 0 si los números son iguales, 
-	 * @throws NullPointerException 
+	 * @throws NullPointerException Lanza la excepción si el elemento a comparar es null
 	 */
 	@Override
 	public int compareTo(Complejo comp) {

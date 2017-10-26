@@ -1,6 +1,9 @@
 import java.io.*;
+import eus.julenugalde.*;
 import java.lang.reflect.*;
+import java.nio.charset.StandardCharsets;
 import java.text.*;
+import java.time.Month;
 import java.util.*;
 
 @SuppressWarnings ("unused")
@@ -14,9 +17,161 @@ public class Main {
 		//testLeerTeclado();
 		//testCadenasTexto();
 		//testInterfaces();
-		testArchivos();
+		//testArchivos();
+		//testSerializacion();
+		//testNetwork();
+		//testArbolBinario();
+		testFormatos();
 	}
 	
+	/** Pruebas con formatos de cadenas, números y fechas */
+	private static void testFormatos() {
+		//Usando StringBuilder
+		String formato = "Nombre: %s. Edad: %d. PI=%f%n";
+		String nombre = "John Doe";
+		int edad = 55;
+		StringBuilder sb = new StringBuilder();
+		Formatter fmt = new Formatter(sb, Locale.US);
+		fmt.format(formato, nombre, edad, Math.PI);
+		System.out.print(sb.toString());
+		fmt.close();
+		
+		//Con método static de String
+		Calendar c = new GregorianCalendar(1980, 1, 20);
+		String s = String.format("Duke's Birthday: %1$tB %1$te, %1$tY", c);
+		System.out.println(s);
+				
+		//Formateo de números con DecimalFormat
+		double numeros[] = {100000/3, Math.PI, 6.023*Math.pow(10, 23), 1E8, 123};
+		DecimalFormat dfFormato = new DecimalFormat("#,##0.##¤",
+				new DecimalFormatSymbols(new Locale("en", "US")));
+			
+		System.out.print("en-US --> ");	//Formato en-US
+		for (int i=0; i<numeros.length; i++)
+			System.out.print (dfFormato.format(numeros[i]) + "\t");
+		System.out.println();
+				
+		dfFormato.setDecimalFormatSymbols(new DecimalFormatSymbols(new Locale("es", "ES")));
+		System.out.print("es-ES --> "); //Formato es-ES
+		for (int i=0; i<numeros.length; i++)
+			System.out.print (dfFormato.format(numeros[i]) + "\t");		
+		System.out.println();
+		
+		//Formateo con NumberFormat
+		NumberFormat nfFormato = NumberFormat.getPercentInstance(new Locale("es", "ES"));
+		for (int i=0; i<numeros.length; i++)
+			System.out.print(nfFormato.format(numeros[i]) + "\t");
+		System.out.println();
+		
+		//Formatos de fecha
+		Date dHoy = new Date();
+		SimpleDateFormat sdfFormato = new SimpleDateFormat("EEEE', 'd' de 'MMMM' de 'Y',' HH:mm:ss zzzz",
+				DateFormatSymbols.getInstance(new Locale("es", "ES")));
+		System.out.println(sdfFormato.format(dHoy));
+		sdfFormato.setTimeZone(TimeZone.getTimeZone("Europe/Brussels"));
+		System.out.println(sdfFormato.format(dHoy));
+		
+		/*Locale[] lLocales = SimpleDateFormat.getAvailableLocales();
+		for (Locale l : lLocales)
+			System.out.println("Lenguaje: " + l.getDisplayLanguage() + ", país: " + 
+					l.getDisplayCountry() + ", variante: " + l.getDisplayVariant() + 
+					", nombre: " + l.getDisplayName());
+		String[] sZonasHorarias = TimeZone.getAvailableIDs();
+		for (String sZona : sZonasHorarias)
+			System.out.println(sZona);*/
+	}
+
+	/** pruebas de un arbol binario generico */
+	private static void testArbolBinario() {
+		Nodo<Complejo> nodoRaiz = new Nodo<Complejo>(new Complejo(1,2));
+		ArbolBinario<Complejo> arbol = new ArbolBinario<Complejo>(nodoRaiz);
+		
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(5.1,7)), 
+				nodoRaiz, ArbolBinario.Orientacion.IZQUIERDA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(-1.2,3)), 
+				nodoRaiz, ArbolBinario.Orientacion.DERECHA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(-2.3,0)), 
+				nodoRaiz.getIzquierda(), ArbolBinario.Orientacion.IZQUIERDA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(-2.4,-7.3)), 
+				nodoRaiz.getIzquierda(), ArbolBinario.Orientacion.DERECHA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(5,0)), 
+				nodoRaiz.getDerecha(), ArbolBinario.Orientacion.DERECHA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(-10.6,3555)), 
+				nodoRaiz.getDerecha().getDerecha(), ArbolBinario.Orientacion.IZQUIERDA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(2.7,3555)), 
+				nodoRaiz.getDerecha().getDerecha(), ArbolBinario.Orientacion.DERECHA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(8,3555)), 
+				nodoRaiz.getDerecha().getDerecha().getDerecha(), ArbolBinario.Orientacion.IZQUIERDA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(9.9, 0.)), 
+				nodoRaiz.getDerecha().getDerecha().getDerecha(), ArbolBinario.Orientacion.DERECHA);
+		arbol.addHijo(new Nodo<Complejo>(new Complejo(-10.101010,3555)), 
+				nodoRaiz.getDerecha().getDerecha().getDerecha().getDerecha(), 
+				ArbolBinario.Orientacion.DERECHA);
+		
+		
+		arbol.mostrarArbol(ArbolBinario.Recorrido.POSTORDEN);
+	}
+
+
+	/** Pruebas de conexiones de red */
+	private static void testNetwork() {		
+		//Lectura de una direccion
+		try {
+			java.net.URL direccion = new java.net.URL("http://www.google.com");
+			BufferedReader br = new BufferedReader(new InputStreamReader(direccion.openStream()));
+			System.out.println(br.readLine());
+			br.close();
+		} catch (java.net.MalformedURLException muex) {
+			System.err.println(muex.getMessage());
+		} catch (IOException ioex) {
+			System.err.println(ioex.getMessage());
+		}		
+	}
+
+	/** Pruebas de serializacion/deserializacion de objetos usando la clase Complejo */
+	private static void testSerializacion() {
+		//Creamos unos cuantos números complejos y alguna que otra variable
+		Complejo[] complejos = Complejo.getRandomArray(20, 555, 853);
+		String cadena = "Esto es una cadena de caracteres";
+		int entero = 18;
+		
+		File archivo = new File("c:/Temp/complejos_serializados.txt");
+		ObjectOutputStream oos;
+		ObjectInputStream ois;
+		
+		try {
+			//Serializamos en un archivo 
+			oos = new ObjectOutputStream(new FileOutputStream(archivo));
+			oos.writeUTF(cadena);
+			oos.writeInt(entero);
+			oos.writeObject(complejos);
+			oos.close();
+			
+			//Deserializamos y comparamos
+			ois = new ObjectInputStream(new FileInputStream(archivo));
+			String cadenaLeida = ois.readUTF();
+			int enteroLeido = ois.readInt();
+			Complejo[] complejosLeidos = (Complejo[])ois.readObject();
+			ois.close();
+			
+			if (cadena.compareTo(cadenaLeida) != 0)
+				System.err.println("Error en la serializacion de la cadena");			
+			if (enteroLeido != entero)
+				System.err.println("Error en la serializacion del entero");
+			for (int i=0; i<complejos.length; i++) {
+				System.out.println("Original: " + complejos[i].toString() + " / Leido: " + 
+						complejosLeidos[i].toString());
+			}
+		}
+		catch (IOException ioex) {
+			System.err.println("Error: " + ioex.getMessage());
+		}
+		catch (ClassNotFoundException cnfex) {
+			System.err.println("Error: " + cnfex.getMessage());
+		}
+		
+	}
+
 	/** pruebas de lectura y escritura de archivos */
 	private static void testArchivos() {
 		File archivo = new File ("c:/Temp/lorem.txt");
@@ -49,7 +204,7 @@ public class Main {
 		}*/
 		
 		//Prueba de clase que extiende a FilterReader
-		try {
+		/*try {
 			LectorFiltrado lf = new LectorFiltrado(new FileReader (archivo));
 			int leidos;
 			char[] buffer = new char[100];
@@ -58,6 +213,38 @@ public class Main {
 						new String (buffer, 0, leidos) + "\"");		
 			}
 			lf.close();
+		}
+		catch (IOException ioex) {
+			System.err.println("Error de I/O: " + ioex.getMessage());
+		}*/
+		
+		//Prueba escritura de archivos
+		/*try {
+			File archivoEscritura = new File ("c:/Temp/numeros.txt");
+			if (!archivoEscritura.exists())
+				archivoEscritura.createNewFile();
+			
+			PrintWriter pr = new PrintWriter(archivoEscritura, StandardCharsets.UTF_8.name());
+			final int NUM_ENTEROS = 200;
+			Random rand = new Random();
+			pr.write("Lista de " + NUM_ENTEROS + " enteros aleatorios entre 1 y 100" + 
+					System.lineSeparator());
+			for (int i=0; i<NUM_ENTEROS; i++)
+				pr.write((rand.nextInt(100)+1) + "\t");
+			pr.write("\n");
+			pr.close();
+		}
+		catch (IOException ioex) {
+			System.err.println("Error de I/O: " + ioex.getMessage());
+		}*/
+		
+		//Prueba acceso aleatorio
+		try {
+			RandomAccessFile raf = new RandomAccessFile(archivo, "rws");
+			raf.seek(550);	//Va a la posicion 50
+			raf.writeBytes("REEMPLAZMOS EL CONTENIDO CON ESTE TEXTO");
+			
+			raf.close();
 		}
 		catch (IOException ioex) {
 			System.err.println("Error de I/O: " + ioex.getMessage());
@@ -282,7 +469,7 @@ public class Main {
 	 * 
 	 * @param entero Número entre -127 y 127 a representar
 	 * @return Cadena de caracteres con la representación del número en 8 dígitos binarios
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException Se lanza excepción si el número está fuera del rango
 	 */
 	public static String byteStringFormat (byte entero) throws IllegalArgumentException {
 		if (entero<-127 | entero>127)
