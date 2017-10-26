@@ -1,3 +1,4 @@
+package eus.julenugalde;
 public class A {
 	protected String x;
 	protected static int numStatic;

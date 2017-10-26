@@ -1,3 +1,4 @@
+package eus.julenugalde;
 public class B extends A {
 	public String x;
 	ClaseInterna interna;

@@ -39,7 +39,7 @@ public class Empleado implements Comparable<Empleado> {
 	}
 	
 	public String toString() {
-		return "Nombre: " + nombre + ", fecha de nacimiento: " + 
+		return "ID: " + this.hashCode() + " --> Nombre: " + nombre + ", fecha de nacimiento: " + 
 				new SimpleDateFormat("yyyy-MM-dd").format(fechaNacimiento) + ", salario: " + 
 				salario  + "€, puesto: " + puesto.toString();
 	}

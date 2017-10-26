@@ -1,3 +1,4 @@
+package eus.julenugalde;
 import java.io.*;
 import eus.julenugalde.*;
 import eus.julenugalde.Empleado.Puesto;
@@ -30,14 +31,47 @@ public class Main {
 	
 	/** Pruebas con las clases de Java Collections Framework */
 	private static void testHashMap() {
-		// TODO Auto-generated method stub
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
+		HashMap<Integer, Empleado> mapaHashEmpleados = new HashMap<Integer, Empleado>();
+		try {
+			Empleado myEmpleado = new Empleado("Alice", sdf.parse("1970-01-23"), 25000, Puesto.TRABAJADOR);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Charlie", sdf.parse("1998-11-30"), 10000, Puesto.BECARIO);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Bob", sdf.parse("1981-02-05"), 100000, Puesto.DIRECTOR);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Dan", sdf.parse("1966-03-04"), 32000, Puesto.TRABAJADOR);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Ronald", sdf.parse("1978-04-05"), 30000, Puesto.TRABAJADOR);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Lance", sdf.parse("1992-08-15"), 12000, Puesto.BECARIO);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Charlie", sdf.parse("1981-03-04"), 23000, Puesto.TRABAJADOR);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
+			myEmpleado = new Empleado("Abraham", sdf.parse("1977-10-12"), 55000, Puesto.JEFE_DEPARTAMENTO);
+			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);	
+			
+			MessageFormat mensaje = new MessageFormat(
+					"Hay {0} elementos en el HashMap, con las siguientes claves: {1}\n");
+			Object[] argumentos = {mapaHashEmpleados.size(), mapaHashEmpleados.keySet().toString()};
+			System.out.print(mensaje.format(argumentos));
+			
+			int claveEliminar = 2125039532;
+			myEmpleado = (Empleado)mapaHashEmpleados.get(claveEliminar);
+			mapaHashEmpleados.remove(claveEliminar, myEmpleado);
+			argumentos = new Object[] {mapaHashEmpleados.size(), mapaHashEmpleados.keySet().toString()};
+			System.out.print(mensaje.format(argumentos));
+			
+			
+			
+		} catch (ParseException e) {
+			System.err.println(e.getLocalizedMessage());
+		}
 	}
 
 	/**Pruebas con una clase que implementa SortedSet */
 	private static void testSortedSet() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		try {
 			SortedSetEmpleados empleados = new SortedSetEmpleados(
 					new Empleado("Alice", sdf.parse("1970-01-23"), 25000, Puesto.TRABAJADOR));
