@@ -1,5 +1,7 @@
 import java.io.*;
 import eus.julenugalde.*;
+import eus.julenugalde.Empleado.Puesto;
+
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
 import java.text.*;
@@ -21,10 +23,51 @@ public class Main {
 		//testSerializacion();
 		//testNetwork();
 		//testArbolBinario();
-		testFormatos();
+		//testFormatos();
+		//testSortedSet();
+		testHashMap();
 	}
 	
-	/** Pruebas con formatos de cadenas, números y fechas */
+	/** Pruebas con las clases de Java Collections Framework */
+	private static void testHashMap() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**Pruebas con una clase que implementa SortedSet */
+	private static void testSortedSet() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			SortedSetEmpleados empleados = new SortedSetEmpleados(
+					new Empleado("Alice", sdf.parse("1970-01-23"), 25000, Puesto.TRABAJADOR));
+			empleados.add(new Empleado("Charlie", sdf.parse("1998-11-30"), 10000, Puesto.BECARIO));
+			empleados.add(new Empleado("Bob", sdf.parse("1981-02-05"), 100000, Puesto.DIRECTOR));
+			empleados.add(new Empleado("Dan", sdf.parse("1966-03-04"), 32000, Puesto.TRABAJADOR));
+			empleados.add(new Empleado("Ronald", sdf.parse("1978-04-05"), 30000, Puesto.TRABAJADOR));
+			empleados.add(new Empleado("Lance", sdf.parse("1992-08-15"), 12000, Puesto.BECARIO));
+			empleados.add(new Empleado("Abraham", sdf.parse("1977-10-12"), 55000, Puesto.JEFE_DEPARTAMENTO));
+			empleados.add(new Empleado("Charlie", sdf.parse("1981-03-04"), 23000, Puesto.TRABAJADOR));
+			System.out.println(empleados.listarEmpleados());
+			
+			/*Empleado aux = new Empleado("Bob", sdf.parse("1981-2-5"), 25001, Puesto.DIRECTOR);
+			//DEBUG System.out.println (empleados.contains(aux));
+			empleados.remove(aux);*/
+			
+			List<Empleado> lista = new ArrayList<Empleado>();
+			lista.add(new Empleado("Bob", sdf.parse("1981-2-5"), 25001, Puesto.DIRECTOR));
+			lista.add(new Empleado("Michael", sdf.parse("191-12-4"), 12000, Puesto.BECARIO));
+			//empleados.remove(lista.get(1));
+			empleados.removeAll(lista);
+			
+			System.out.println(empleados.listarEmpleados());
+			
+		} catch (ParseException e) {
+			System.err.println(e.getLocalizedMessage());
+		}
+	}
+
+	/** Pruebas con formatos de cadenas, números, fechas y mensajes */
 	private static void testFormatos() {
 		//Usando StringBuilder
 		String formato = "Nombre: %s. Edad: %d. PI=%f%n";
@@ -79,6 +122,14 @@ public class Main {
 		String[] sZonasHorarias = TimeZone.getAvailableIDs();
 		for (String sZona : sZonasHorarias)
 			System.out.println(sZona);*/
+		
+		//Formatos de mensajes.\
+		Object[] argumentos = {new Long(123), "c:\"", new Complejo(2,3), 
+				new Nodo<String>("contenido nodo"), new A().getX()};
+		MessageFormat mfFormato = new MessageFormat("Hay {0} archivos en {1}, incluyendo a {2} con " + 
+				"su nodo {3} que contiene {4}");
+		System.out.println(mfFormato.format(argumentos));
+		
 	}
 
 	/** pruebas de un arbol binario generico */
