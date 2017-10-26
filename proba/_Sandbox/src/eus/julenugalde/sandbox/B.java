@@ -1,4 +1,4 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 public class B extends A {
 	public String x;
 	ClaseInterna interna;

@@ -1,4 +1,4 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 public class C extends B {
 	public String x;
 	

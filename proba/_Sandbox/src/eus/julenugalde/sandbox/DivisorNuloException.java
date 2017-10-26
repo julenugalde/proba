@@ -1,4 +1,4 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 /**
  * Excepción de ejemplo para detectar la división por cero en las operaciones con números complejos
  * @author Julen Ugalde

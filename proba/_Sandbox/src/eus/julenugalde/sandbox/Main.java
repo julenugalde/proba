@@ -1,13 +1,13 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 import java.io.*;
-import eus.julenugalde.*;
-import eus.julenugalde.Empleado.Puesto;
-
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
 import java.text.*;
 import java.time.Month;
 import java.util.*;
+
+import eus.julenugalde.sandbox.*;
+import eus.julenugalde.sandbox.Empleado.Puesto;
 
 @SuppressWarnings ("unused")
 public class Main {
@@ -26,9 +26,40 @@ public class Main {
 		//testArbolBinario();
 		//testFormatos();
 		//testSortedSet();
-		testHashMap();
+		//testHashMap();
+		testIterators();
 	}
 	
+	/** Pruebas con clases que implementan los interfaces Iterator y ListIterator */
+	private static void testIterators() {
+		ArrayList<String> listaNombres = new ArrayList<String>();
+		listaNombres.add("alfa");
+		listaNombres.add("beta");
+		listaNombres.add("gamma");
+		listaNombres.add("delta");
+		listaNombres.add("epsilon");
+		listaNombres.add("zeta");
+		listaNombres.add("eta");
+		verLista(listaNombres.listIterator());		
+		
+		ListIterator<String> iterador = listaNombres.listIterator();
+		if (iterador.hasNext())
+			System.out.println(iterador.nextIndex() + " - " + iterador.next());
+		if (iterador.hasNext()) iterador.next();
+		if (iterador.hasNext()) iterador.next();
+		if (iterador.hasPrevious())
+			System.out.println(iterador.previousIndex() + " - " + iterador.previous());
+		iterador.set("HULK");
+		
+		verLista(listaNombres.listIterator());
+	}
+	
+	private static void verLista (ListIterator<String> iterador) {
+		System.out.println("INDICE\tVALOR");
+		while (iterador.hasNext())
+			System.out.println(iterador.nextIndex() + "\t" + iterador.next());
+	}
+
 	/** Pruebas con las clases de Java Collections Framework */
 	private static void testHashMap() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
@@ -61,9 +92,6 @@ public class Main {
 			mapaHashEmpleados.remove(claveEliminar, myEmpleado);
 			argumentos = new Object[] {mapaHashEmpleados.size(), mapaHashEmpleados.keySet().toString()};
 			System.out.print(mensaje.format(argumentos));
-			
-			
-			
 		} catch (ParseException e) {
 			System.err.println(e.getLocalizedMessage());
 		}

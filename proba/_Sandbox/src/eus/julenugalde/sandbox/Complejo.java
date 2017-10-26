@@ -1,4 +1,4 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 import java.io.Serializable;
 
 /** Clase para hacer pruebas de sobrecargas de métodos, implementación de interfaces... */

@@ -1,4 +1,4 @@
-package eus.julenugalde;
+package eus.julenugalde.sandbox;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
