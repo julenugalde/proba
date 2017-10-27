@@ -7,7 +7,6 @@ import java.time.Month;
 import java.util.*;
 
 import eus.julenugalde.sandbox.*;
-import eus.julenugalde.sandbox.Empleado.Puesto;
 
 @SuppressWarnings ("unused")
 public class Main {
@@ -27,9 +26,34 @@ public class Main {
 		//testFormatos();
 		//testSortedSet();
 		//testHashMap();
-		testIterators();
+		//testIterators();
+		testEnums();
 	}
 	
+	/** Pruebas con enum, usando PuestosEmpresa */
+	private static void testEnums() {
+		PuestosEmpresa[] listaPuestos = PuestosEmpresa.values();
+		System.out.println("Sueldo medio " + listaPuestos[0].toString() + ": " + 
+				listaPuestos[0].sueldoMedio());
+		listaPuestos[0].setSueldoMaximo(250000);
+		System.out.println("Sueldo medio " + listaPuestos[0].toString() + ": " + 
+				listaPuestos[0].sueldoMedio());
+		
+		EnumMap<PuestosEmpresa, String>mapaTratamientos = 
+				new EnumMap<PuestosEmpresa, String>(PuestosEmpresa.class);
+		mapaTratamientos.put(PuestosEmpresa.DIRECTOR, "Señor director");
+		mapaTratamientos.put(PuestosEmpresa.JEFE_DEPARTAMENTO, "Estimado señor");
+		mapaTratamientos.put(PuestosEmpresa.TRABAJADOR, "Oye");
+		mapaTratamientos.put(PuestosEmpresa.BECARIO, "Pringadillo");
+		
+		
+		for (PuestosEmpresa puesto : listaPuestos)
+			System.out.println("El puesto con nombre "  + puesto.toString() + " esta en la posicion " + 
+					puesto.ordinal() + " y tiene como sueldo medio " + puesto.sueldoMedio() + "€");
+		//PuestosEmpresa kk = PuestosEmpresa.valueOf("DIRECTOR");
+		
+	}
+
 	/** Pruebas con clases que implementan los interfaces Iterator y ListIterator */
 	private static void testIterators() {
 		ArrayList<String> listaNombres = new ArrayList<String>();
@@ -65,21 +89,29 @@ public class Main {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		HashMap<Integer, Empleado> mapaHashEmpleados = new HashMap<Integer, Empleado>();
 		try {
-			Empleado myEmpleado = new Empleado("Alice", sdf.parse("1970-01-23"), 25000, Puesto.TRABAJADOR);
+			Empleado myEmpleado = new Empleado(
+					"Alice", sdf.parse("1970-01-23"), 25000, PuestosEmpresa.TRABAJADOR);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Charlie", sdf.parse("1998-11-30"), 10000, Puesto.BECARIO);
+			myEmpleado = new Empleado(
+					"Charlie", sdf.parse("1998-11-30"), 10000, PuestosEmpresa.BECARIO);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Bob", sdf.parse("1981-02-05"), 100000, Puesto.DIRECTOR);
+			myEmpleado = new Empleado(
+					"Bob", sdf.parse("1981-02-05"), 100000, PuestosEmpresa.DIRECTOR);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Dan", sdf.parse("1966-03-04"), 32000, Puesto.TRABAJADOR);
+			myEmpleado = new Empleado(
+					"Dan", sdf.parse("1966-03-04"), 32000, PuestosEmpresa.TRABAJADOR);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Ronald", sdf.parse("1978-04-05"), 30000, Puesto.TRABAJADOR);
+			myEmpleado = new Empleado(
+					"Ronald", sdf.parse("1978-04-05"), 30000, PuestosEmpresa.TRABAJADOR);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Lance", sdf.parse("1992-08-15"), 12000, Puesto.BECARIO);
+			myEmpleado = new Empleado(
+					"Lance", sdf.parse("1992-08-15"), 12000, PuestosEmpresa.BECARIO);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Charlie", sdf.parse("1981-03-04"), 23000, Puesto.TRABAJADOR);
+			myEmpleado = new Empleado(
+					"Charlie", sdf.parse("1981-03-04"), 23000, PuestosEmpresa.TRABAJADOR);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);
-			myEmpleado = new Empleado("Abraham", sdf.parse("1977-10-12"), 55000, Puesto.JEFE_DEPARTAMENTO);
+			myEmpleado = new Empleado(
+					"Abraham", sdf.parse("1977-10-12"), 55000, PuestosEmpresa.JEFE_DEPARTAMENTO);
 			mapaHashEmpleados.put(myEmpleado.hashCode(), myEmpleado);	
 			
 			MessageFormat mensaje = new MessageFormat(
@@ -101,15 +133,22 @@ public class Main {
 	private static void testSortedSet() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		try {
-			SortedSetEmpleados empleados = new SortedSetEmpleados(
-					new Empleado("Alice", sdf.parse("1970-01-23"), 25000, Puesto.TRABAJADOR));
-			empleados.add(new Empleado("Charlie", sdf.parse("1998-11-30"), 10000, Puesto.BECARIO));
-			empleados.add(new Empleado("Bob", sdf.parse("1981-02-05"), 100000, Puesto.DIRECTOR));
-			empleados.add(new Empleado("Dan", sdf.parse("1966-03-04"), 32000, Puesto.TRABAJADOR));
-			empleados.add(new Empleado("Ronald", sdf.parse("1978-04-05"), 30000, Puesto.TRABAJADOR));
-			empleados.add(new Empleado("Lance", sdf.parse("1992-08-15"), 12000, Puesto.BECARIO));
-			empleados.add(new Empleado("Abraham", sdf.parse("1977-10-12"), 55000, Puesto.JEFE_DEPARTAMENTO));
-			empleados.add(new Empleado("Charlie", sdf.parse("1981-03-04"), 23000, Puesto.TRABAJADOR));
+			SortedSetEmpleados empleados = new SortedSetEmpleados(new Empleado(
+					"Alice", sdf.parse("1970-01-23"), 25000, PuestosEmpresa.TRABAJADOR));
+			empleados.add(new Empleado(
+					"Charlie", sdf.parse("1998-11-30"), 10000, PuestosEmpresa.BECARIO));
+			empleados.add(new Empleado(
+					"Bob", sdf.parse("1981-02-05"), 100000, PuestosEmpresa.DIRECTOR));
+			empleados.add(new Empleado(
+					"Dan", sdf.parse("1966-03-04"), 32000, PuestosEmpresa.TRABAJADOR));
+			empleados.add(new Empleado(
+					"Ronald", sdf.parse("1978-04-05"), 30000, PuestosEmpresa.TRABAJADOR));
+			empleados.add(new Empleado(
+					"Lance", sdf.parse("1992-08-15"), 12000, PuestosEmpresa.BECARIO));
+			empleados.add(new Empleado(
+					"Abraham", sdf.parse("1977-10-12"), 55000, PuestosEmpresa.JEFE_DEPARTAMENTO));
+			empleados.add(new Empleado(
+					"Charlie", sdf.parse("1981-03-04"), 23000, PuestosEmpresa.TRABAJADOR));
 			System.out.println(empleados.listarEmpleados());
 			
 			/*Empleado aux = new Empleado("Bob", sdf.parse("1981-2-5"), 25001, Puesto.DIRECTOR);
@@ -117,8 +156,8 @@ public class Main {
 			empleados.remove(aux);*/
 			
 			List<Empleado> lista = new ArrayList<Empleado>();
-			lista.add(new Empleado("Bob", sdf.parse("1981-2-5"), 25001, Puesto.DIRECTOR));
-			lista.add(new Empleado("Michael", sdf.parse("191-12-4"), 12000, Puesto.BECARIO));
+			lista.add(new Empleado("Bob", sdf.parse("1981-2-5"), 25001, PuestosEmpresa.DIRECTOR));
+			lista.add(new Empleado("Michael", sdf.parse("191-12-4"), 12000, PuestosEmpresa.BECARIO));
 			//empleados.remove(lista.get(1));
 			empleados.removeAll(lista);
 			

@@ -5,14 +5,12 @@ import java.util.Date;
 
 /** Clase de ejemplo para probar colecciones */
 public class Empleado implements Comparable<Empleado> {
-	public enum Puesto {DIRECTOR, JEFE_DEPARTAMENTO, TRABAJADOR, BECARIO};
-	
 	private String nombre;
 	private Date fechaNacimiento;
 	private int salario;
-	private Puesto puesto;
+	private PuestosEmpresa puesto;
 	
-	public Empleado (String nombre, Date fechaNacimiento, int salario, Puesto puesto) {
+	public Empleado (String nombre, Date fechaNacimiento, int salario, PuestosEmpresa puesto) {
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.salario = salario;
@@ -25,8 +23,8 @@ public class Empleado implements Comparable<Empleado> {
 	public void setFechaNacimiento(Date fecha) {this.fechaNacimiento = fecha;}
 	public int getSalario() {return salario;}
 	public void setSalario(int salario) {this.salario = salario;}
-	public Puesto getPuesto( ) {return puesto;}
-	public void setPuesto(Puesto puesto) {this.puesto = puesto;}
+	public PuestosEmpresa getPuesto( ) {return puesto;}
+	public void setPuesto(PuestosEmpresa puesto) {this.puesto = puesto;}
 
 	@Override
 	public int compareTo(Empleado arg0) {
@@ -41,7 +39,8 @@ public class Empleado implements Comparable<Empleado> {
 	public String toString() {
 		return "ID: " + this.hashCode() + " --> Nombre: " + nombre + ", fecha de nacimiento: " + 
 				new SimpleDateFormat("yyyy-MM-dd").format(fechaNacimiento) + ", salario: " + 
-				salario  + "€, puesto: " + puesto.toString();
+				salario  + "€, puesto: " + puesto.toString()  + ". Cobra " + 
+				(salario - puesto.sueldoMedio()) + "€ respecto al sueldo medio de su puesto";
 	}
 	
 }

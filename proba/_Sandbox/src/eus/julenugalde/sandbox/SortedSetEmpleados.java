@@ -214,15 +214,17 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 	}
 	
 	public String listarEmpleados() {
-		StringBuilder sb = new StringBuilder("NOMBRE\tFECHA NACIM.\tSALARIO\tPUESTO\n" + 
-				"-------------------------------------------------\n");
+		StringBuilder sb = new StringBuilder(
+				"NOMBRE\tFECHA NACIM.\tSALARIO\tPUESTO\t\tSALARIO/MEDIA PUESTO\n" + 
+				"-----------------------------------------------------------\n");
 		Iterator<Empleado> iterador = this.iterator();
 		Empleado aux;
 		while (iterador.hasNext()) {
 			aux = iterador.next();
 			sb.append(aux.getNombre() + "\t" + 
 					new SimpleDateFormat("yyyy-MM-dd").format(aux.getFechaNacimiento()) + "\t" + 
-					aux.getSalario() + "€\t" + aux.getPuesto().toString() + "\n");
+					aux.getSalario() + "€\t" + aux.getPuesto().toString() + "\t" + 
+					(aux.getSalario()- aux.getPuesto().sueldoMedio())+"€\n");
 		}			
 		return sb.toString();
 	}
