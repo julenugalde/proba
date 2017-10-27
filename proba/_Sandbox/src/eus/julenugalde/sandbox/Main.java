@@ -33,12 +33,15 @@ public class Main {
 	/** Pruebas con enum, usando PuestosEmpresa */
 	private static void testEnums() {
 		PuestosEmpresa[] listaPuestos = PuestosEmpresa.values();
+		
+		//Modificacion de uno de los atributos
 		System.out.println("Sueldo medio " + listaPuestos[0].toString() + ": " + 
 				listaPuestos[0].sueldoMedio());
 		listaPuestos[0].setSueldoMaximo(250000);
 		System.out.println("Sueldo medio " + listaPuestos[0].toString() + ": " + 
 				listaPuestos[0].sueldoMedio());
 		
+		//Clase EnumMap
 		EnumMap<PuestosEmpresa, String>mapaTratamientos = 
 				new EnumMap<PuestosEmpresa, String>(PuestosEmpresa.class);
 		mapaTratamientos.put(PuestosEmpresa.DIRECTOR, "Señor director");
@@ -46,12 +49,11 @@ public class Main {
 		mapaTratamientos.put(PuestosEmpresa.TRABAJADOR, "Oye");
 		mapaTratamientos.put(PuestosEmpresa.BECARIO, "Pringadillo");
 		
-		
+		//Ver los métodos de la enumeración
 		for (PuestosEmpresa puesto : listaPuestos)
 			System.out.println("El puesto con nombre "  + puesto.toString() + " esta en la posicion " + 
 					puesto.ordinal() + " y tiene como sueldo medio " + puesto.sueldoMedio() + "€");
-		//PuestosEmpresa kk = PuestosEmpresa.valueOf("DIRECTOR");
-		
+		//PuestosEmpresa kk = PuestosEmpresa.valueOf("DIRECTOR");		
 	}
 
 	/** Pruebas con clases que implementan los interfaces Iterator y ListIterator */
@@ -259,7 +261,6 @@ public class Main {
 		arbol.addHijo(new Nodo<Complejo>(new Complejo(-10.101010,3555)), 
 				nodoRaiz.getDerecha().getDerecha().getDerecha().getDerecha(), 
 				ArbolBinario.Orientacion.DERECHA);
-		
 		
 		arbol.mostrarArbol(ArbolBinario.Recorrido.POSTORDEN);
 	}
