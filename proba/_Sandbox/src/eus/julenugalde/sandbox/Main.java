@@ -2,9 +2,11 @@ package eus.julenugalde.sandbox;
 import java.io.*;
 import java.lang.reflect.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 import java.text.*;
 import java.time.Month;
 import java.util.*;
+import java.util.Date;
 
 import eus.julenugalde.sandbox.*;
 
@@ -27,9 +29,53 @@ public class Main {
 		//testSortedSet();
 		//testHashMap();
 		//testIterators();
-		testEnums();
+		//testEnums();
+		testMySQL();
+		
 	}
 	
+	/** Test para probar las conexiones a una base de datos MySQL, usando una DB pública */
+	private static void testMySQL() {
+		try {
+			String user = "julen";
+			
+			//Leer contraseña del teclado
+			System.out.print("Password: ");
+			BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
+			String password = br.readLine();
+			
+			Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
+			String url = "jdbc:mysql://localhost:3306/sakila";
+			Connection con = DriverManager.getConnection(
+					url+"?useSSL=false", 	//para evitar el warning de SSL connection
+					user, password);
+			
+			String sql = "SELECT actor_id, first_name, last_name FROM actor where first_name=?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, "julia");	//también existe setInt(), setDouble(), setBigDecimal(), etc.
+			ResultSet rs = stmt.executeQuery();    
+			
+			System.out.println("ID\tNOMBRE\tAPELLIDO");
+			while (rs.next()) {
+				System.out.println(rs.getInt("actor_id") + "\t" + rs.getString("first_name") + 
+						"\t" + rs.getString("last_name"));
+			}
+			
+			con.close();
+		} catch (ClassNotFoundException e) {
+			System.err.println("Class not found: " + e.getMessage());;
+		} catch (SQLException e) {
+			System.err.println("SQL exception: " + e.getMessage());
+		} catch (IOException ioex) {
+			System.err.println("Error: " + ioex.getMessage());
+		/*} catch (IllegalAccessException e) {
+			System.err.println("Illegal access: " + e.getMessage());
+		} catch (InstantiationException e) {
+			e.printStackTrace();*/
+		}
+		
+	}
+
 	/** Pruebas con enum, usando PuestosEmpresa */
 	private static void testEnums() {
 		PuestosEmpresa[] listaPuestos = PuestosEmpresa.values();
