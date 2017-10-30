@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 
 @SuppressWarnings("serial")
-public class TestFrameAWT extends Frame {	
+public class PruebaFrameAWT extends Frame {	
 	private Button b1;
 	private Button b2;
 	private Button b3;
@@ -15,7 +15,7 @@ public class TestFrameAWT extends Frame {
 	private Checkbox cb1;
 	private ScrollPane sp;
 	
-	public TestFrameAWT (String titulo) {
+	public PruebaFrameAWT (String titulo) {
 		this.setTitle(titulo);
 		this.setSize(400, 300);
 		this.setResizable(true);
@@ -153,7 +153,7 @@ public class TestFrameAWT extends Frame {
 	}
 
 	public static void main(String[] args) {
-		TestFrameAWT ventana = new TestFrameAWT("prueba");
+		PruebaFrameAWT ventana = new PruebaFrameAWT("prueba");
 		ventana.setEnabled(true);
 		ventana.setVisible(true);
 		

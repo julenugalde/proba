@@ -47,8 +47,8 @@ public class Main {
 			Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
 			String url = "jdbc:mysql://localhost:3306/sakila";
 			Connection con = DriverManager.getConnection(
-					url+"?useSSL=false", 	//para evitar el warning de SSL connection
-					user, password);
+					url+"?verifyServerCertificate=false&useSSL=true", 	//usa SSL pero sin verificación	
+					user, password);									//del certificado
 			
 			String sql = "SELECT actor_id, first_name, last_name FROM actor where first_name=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -72,8 +72,7 @@ public class Main {
 			System.err.println("Illegal access: " + e.getMessage());
 		} catch (InstantiationException e) {
 			e.printStackTrace();*/
-		}
-		
+		}		
 	}
 
 	/** Pruebas con enum, usando PuestosEmpresa */
