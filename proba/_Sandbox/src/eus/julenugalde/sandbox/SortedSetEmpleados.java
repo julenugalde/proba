@@ -50,7 +50,7 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 	@Override
 	public boolean addAll(Collection<? extends Empleado> arg0) {
 		if (arg0==null) return false;
-		@SuppressWarnings("unchecked")	//TODO Ver como evitar el unchecked cast
+		@SuppressWarnings("unchecked")	
 		Iterator<Empleado> iterador = (Iterator<Empleado>)arg0.iterator();
 		while (iterador.hasNext()) {
 			this.add(iterador.next());
@@ -76,8 +76,10 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 
 	@Override
 	public boolean containsAll(Collection<?> arg0) {
-		@SuppressWarnings("unchecked")	//TODO Evitar el unchecked cast
-		Collection<Empleado> elementos = (Collection<Empleado>) arg0;
+		if (arg0 == null)
+			return false;
+		@SuppressWarnings("unchecked")
+		Collection<Empleado> elementos = (Collection<Empleado>)arg0;
 		Iterator<Empleado> iterador = elementos.iterator();
 		while (iterador.hasNext()) {
 			if (!this.contains(iterador.next()))
@@ -142,7 +144,7 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 
 	@Override
 	public boolean removeAll(Collection<?> arg0) {
-		@SuppressWarnings("unchecked")	//TODO Evitar el unchecked cast
+		@SuppressWarnings("unchecked")	
 		Collection<Empleado> coleccion = (Collection<Empleado>)arg0;
 		if (coleccion == null)
 			return false;
@@ -157,8 +159,7 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 
 	@Override
 	public boolean retainAll(Collection<?> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
@@ -173,44 +174,37 @@ public class SortedSetEmpleados implements SortedSet<Empleado> {
 
 	@Override
 	public <T> T[] toArray(T[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public Comparator<? super Empleado> comparator() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public Empleado first() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public SortedSet<Empleado> headSet(Empleado arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public Empleado last() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public SortedSet<Empleado> subSet(Empleado arg0, Empleado arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public SortedSet<Empleado> tailSet(Empleado arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	
 	public String listarEmpleados() {

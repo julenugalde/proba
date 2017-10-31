@@ -1,6 +1,9 @@
 package eus.julenugalde.sandbox;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -13,6 +16,7 @@ public class PruebaFrameSwing extends JFrame {
 	private JButton b4;
 	private JSlider s1;
 	private JPanel panel;
+	private JTextField tf1;
 	
 	private ActionListener listenerBotones;
 	
@@ -41,6 +45,9 @@ public class PruebaFrameSwing extends JFrame {
 		s1.setMinorTickSpacing(1);
 		s1.setPaintTicks(true);
 		s1.setPaintLabels(true);
+		panel = new JPanel();
+		//panel.setBackground(java.awt.Color.RED);
+		tf1 = new JTextField();
 		
 		//Añadir listeners
 		listenerBotones = new ActionListener() {
@@ -121,15 +128,26 @@ public class PruebaFrameSwing extends JFrame {
 		b2.addActionListener(listenerBotones);
 		b3.addActionListener(listenerBotones);
 		b4.addActionListener(listenerBotones);
+		s1.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider origen = (JSlider)e.getSource();
+				System.out.println("Nuevo valor: " + origen.getValue());
+			}
+			
+		});
 		s1.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				System.out.println("Nuevo valor: " + evt.getNewValue().toString());				
+				System.out.println("Propiedad cambiada " + evt.getPropertyName() + ". " + 
+					evt.getOldValue() + " -> " + evt.getNewValue());				
 			}			
 		});
-			
+		
+		tf1.addKeyListener(new AdaptadorTeclas());
+		
 		//Añadir elementos a la ventana
-		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		b1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(b1);
@@ -140,7 +158,9 @@ public class PruebaFrameSwing extends JFrame {
 		b4.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(b4);
 		panel.add(s1);
+		panel.add(tf1);
 		this.add(panel);
+		
 	}
 	
 	public static void main (String[] args) {
@@ -151,4 +171,11 @@ public class PruebaFrameSwing extends JFrame {
 	}
 }
 
-
+class AdaptadorTeclas extends KeyAdapter {
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//Convierte el texto a mayusculas
+		JTextField origen = (JTextField)e.getSource();
+		origen.setText(origen.getText().toUpperCase());
+	}
+}
