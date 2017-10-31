@@ -4,7 +4,7 @@ package eus.julenugalde.sandbox.designpatterns.factory;
  * Extraido de {@link https://sourcemaking.com/design_patterns/factory_method/java/1}
  * 
  */
-public class FactoryMethodDemo {
+public class ClienteFactoryMethod {
 
 	/**
 	 * Método main, al que hay que pasar como argumento la imagen a decodificar
@@ -14,7 +14,7 @@ public class FactoryMethodDemo {
 		DecodedImage decodedImage;
 		ImageReader reader = null;
 		String image = args[0];
-        assert (image != null);
+        assert image != null;
 		
         //formato en función de la extensión del fichero
 		String format = image.substring(image.indexOf('.') + 1, (image.length()));
@@ -26,7 +26,7 @@ public class FactoryMethodDemo {
         	reader = new JpegReader(image);        	
         }
         
-        assert (reader != null);
+        assert reader != null;	//Dará error si el formato nos es uno de los soportados
         
         //Se llamará a un método u otro en función de la clase
         decodedImage = reader.getDecodeImage();
