@@ -84,6 +84,7 @@ public class Complejo implements Comparable<Complejo>, Divisible, Serializable {
 	public void sumar (Complejo comp) {
 		this.real += comp.real;
 		this.imag += comp.imag;
+		
 	}
 	
 	/**

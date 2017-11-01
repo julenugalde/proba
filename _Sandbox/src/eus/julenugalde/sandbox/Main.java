@@ -16,7 +16,7 @@ public class Main {
 		//testParseoISS();
 		//testClassScanner();
 		//testFlags();
-		//testHerencias();
+		testHerencias();
 		//testClaseVector();
 		//testLeerTeclado();
 		//testCadenasTexto();
@@ -30,7 +30,7 @@ public class Main {
 		//testHashMap();
 		//testIterators();
 		//testEnums();
-		testMySQL();
+		//testMySQL();
 		
 	}
 	
@@ -598,7 +598,7 @@ public class Main {
 		A objA = new A();
 		B objB = new B();
 		System.out.println("x en A: " + objA.x);
-		System.out.println("x en B: " + objB.x);
+		System.out.println("x en B: " + objB.getX());
 		System.out.println("x en C: " + objC.x);
 		objC.metodoPrueba();
 		

@@ -1,6 +1,7 @@
 package eus.julenugalde.sandbox;
 public class C extends B {
 	public String x;
+	private int variablePrivada;
 	
 	C() {
 		x = "Variable x en clase C";
@@ -8,7 +9,7 @@ public class C extends B {
 	
 	public void metodoPrueba () {
 		System.out.println("x de C: " + x);
-		System.out.println("x de B: " + super.x);
+		System.out.println("x de B: " + super.getX());
 		System.out.println("x de A: " + ((A)this).x);
 		
 	}
@@ -19,5 +20,19 @@ public class C extends B {
 	
 	public void metodoRedef() {
 		System.out.println("Metodo redefinido por la clase C");
+	}
+
+	/**
+	 * @return the variablePrivada
+	 */
+	public int getVariablePrivada() {
+		return variablePrivada;
+	}
+
+	/**
+	 * @param variablePrivada the variablePrivada to set
+	 */
+	public void setVariablePrivada(int variablePrivada) {
+		this.variablePrivada = variablePrivada;
 	}
 }

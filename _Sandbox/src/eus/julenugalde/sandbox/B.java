@@ -1,10 +1,10 @@
 package eus.julenugalde.sandbox;
 public class B extends A {
-	public String x;
+	private String x;
 	ClaseInterna interna;
 		
 	B() {
-		x = "Variable x en clase B";
+		setX("Variable x en clase B");
 	}
 	public void metodoB() {
 		System.out.println("Metodo B ejecutado");
@@ -17,6 +17,19 @@ public class B extends A {
 		objetoInterno1.metodo();
 	}
 	
+	/**
+	 * @return the x
+	 */
+	public String getX() {
+		return "X de B: " + x;
+	}
+	/**
+	 * @param x the x to set
+	 */
+	public void setX(String x) {
+		this.x = x;
+	}
+
 	class ClaseInterna {
 		private String nombre;
 		private int edad;

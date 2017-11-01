@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.gui;
 
 import java.awt.*;
 import java.awt.event.*;

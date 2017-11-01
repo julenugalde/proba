@@ -13,7 +13,7 @@ public class A {
 	}
 	
 	public String getX () {
-		return x;
+		return "X de A: " + x;
 	}
 	
 	public int getNumStatic() { return numStatic;}
