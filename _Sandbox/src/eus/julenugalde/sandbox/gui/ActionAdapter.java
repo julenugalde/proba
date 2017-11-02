@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
@@ -56,12 +57,22 @@ public class ActionAdapter implements ActionListener {
 			menuNuevo(e);
 			break;
 			
+		case MENU_INVERTIR:
+			menuInvertir(e);
+			break;
+			
 		default:
 			setStatus("Error: Boton pulsado desconocido");
 			break;
 		}
 	}
 	
+	private void menuInvertir(ActionEvent e) {
+		//TODO No me gusta porque podria haber varias ventanas abiertas --> buscar alternativa
+		PruebaFrameSwing pfs = (PruebaFrameSwing) JFrame.getFrames()[0];
+		pfs.invertirColoresTextArea();		
+	}
+
 	private void buttonOpciones(ActionEvent e) {
 		String[] libros = {"A Game of Thrones", "A Clash of Kings", "A Storm of Swords",
 				"A Feast for Crows", "A Dance with Dragong", "The Winds of Winter"};

@@ -30,17 +30,17 @@ public class PanelDibujo extends JPanel {
 		int[] y = {59, 135, 75, 99, 101, 30};
 		g.drawPolyline(x, y, x.length);
 		g.setColor(Color.BLACK);
-		g.drawString("prueba de uso de Graphics", 20, 250);
+		g.drawString("prueba de uso de Graphics", 20, 150);
 		g.setFont(new Font(getFont().getFontName(), Font.BOLD|Font.ITALIC, 15));
-		g.drawString("en negrita, cursiva y más grande", 25, 300);
+		g.drawString("en negrita, cursiva y más grande", 25, 200);
 		g.setColor(Color.MAGENTA);
-		g.drawRoundRect(400, 280, 120, 80, 20, 25);
+		g.drawRoundRect(400, 30, 120, 80, 20, 25);
 		
 		//imagen desde URL
 		try {
 			URL origen = new URL("https://education.oracle.com/education/images/wdpsub/java.png");
 			Image imagen = ImageIO.read(origen);
-			g.drawImage(imagen, 400, 100, this);
+			g.drawImage(imagen, 300, 100, this);
 		} catch (IOException ioex) {}
 	}
 }

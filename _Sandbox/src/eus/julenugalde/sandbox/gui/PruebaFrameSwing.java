@@ -1,13 +1,9 @@
 package eus.julenugalde.sandbox.gui;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 
-import javafx.scene.input.KeyCode;
-
-import java.awt.CheckboxMenuItem;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,6 +12,7 @@ import java.beans.PropertyChangeListener;
 public class PruebaFrameSwing extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
+	private static PruebaFrameSwing ventana;	//TODO Ver si esto tiene sentido
 	private JButton b1;
 	private JButton b2;
 	private JButton b3;	
@@ -23,13 +20,17 @@ public class PruebaFrameSwing extends JFrame {
 	private JSlider s1;
 	private JPanel panel;
 	private JTextField tf1;
+	private JTextArea ta1;
 	private PanelDibujo panelDibujo;
 	private JLabel l1;
 	private JMenuBar menuBar;
-	private JMenu subMenu;
-	private JMenuItem m1;
-	private JMenuItem m2;
-	private JMenuItem m3;
+	private JMenu mFile;
+	private JMenuItem miNew;
+	private JMenuItem miOpen;
+	private JMenuItem miSave;
+	private JMenuItem miExit;
+	private JMenu mOpciones;
+	private JCheckBoxMenuItem cbmiInvertirColores;
 	
 	/** Constructor de la ventana
 	 * 
@@ -45,20 +46,31 @@ public class PruebaFrameSwing extends JFrame {
 	
 	private void crearMenus() {
 		menuBar = new JMenuBar();
-		subMenu = new JMenu("File");
-		subMenu.setMnemonic(KeyEvent.VK_N);		
+		mFile = new JMenu("File");
+		mFile.setMnemonic(KeyEvent.VK_F);		
 		
-		m1 = new JMenuItem("New");
-		m1.setIcon(new ImageIcon("res/filenew_16_16.png"));
-		m1.setMnemonic(KeyEvent.VK_N);
+		miNew = new JMenuItem("New");
+		miNew.setIcon(new ImageIcon("res/filenew_16_16.png"));
+		miNew.setMnemonic(KeyEvent.VK_N);
 		
-		m2 = new JMenuItem("Open");
-		m2.setIcon(new ImageIcon("res/fileopen_16_16.png"));
-		m2.setMnemonic(KeyEvent.VK_O);
+		miOpen = new JMenuItem("Open");
+		miOpen.setIcon(new ImageIcon("res/fileopen_16_16.png"));
+		miOpen.setMnemonic(KeyEvent.VK_O);
 		
-		m3 = new JMenuItem("Save");
-		m3.setIcon(new ImageIcon("res/filesave_16_16.png"));
-		m3.setMnemonic(KeyEvent.VK_S);
+		miSave = new JMenuItem("Save");
+		miSave.setIcon(new ImageIcon("res/filesave_16_16.png"));
+		miSave.setMnemonic(KeyEvent.VK_S);
+		
+		miExit = new JMenuItem("Exit");
+		miExit.setIcon(new ImageIcon("res/exit_16_16.png"));
+		miExit.setMnemonic(KeyEvent.VK_X);
+		
+		mOpciones = new JMenu("Options");
+		mOpciones.setMnemonic(KeyEvent.VK_P);
+		
+		cbmiInvertirColores = new JCheckBoxMenuItem("Invert colors", false);
+		cbmiInvertirColores.setIcon(new ImageIcon("res/invert_16_16.png"));
+		cbmiInvertirColores.setMnemonic(KeyEvent.VK_I);
 	}
 
 	private void anadirElementosVentana() {
@@ -77,16 +89,25 @@ public class PruebaFrameSwing extends JFrame {
 		panel.add(tf1);
 		panelDibujo.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(panelDibujo);
+		ta1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		JScrollPane jsp = new JScrollPane(ta1);
+		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		jsp.setMaximumSize(new Dimension(this.getWidth(), 400));
+		panel.add(jsp);
 		l1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(l1);
 		
 		this.add(panel);		
 		
-		subMenu.add(m1);
-		subMenu.add(m2);
-		subMenu.addSeparator();
-		subMenu.add(m3);
-		menuBar.add(subMenu);
+		mFile.add(miNew);
+		mFile.add(miOpen);
+		mFile.add(miSave);
+		mFile.addSeparator();
+		mFile.add(miExit);
+		mOpciones.add(cbmiInvertirColores);
+		menuBar.add(mFile);
+		menuBar.add(mOpciones);
 		this.setJMenuBar(menuBar);
 		
 	}
@@ -139,9 +160,17 @@ public class PruebaFrameSwing extends JFrame {
 		//Listener para el campo de texto
 		tf1.addKeyListener(new TeclasAdapter());
 		
-		m1.addActionListener(new ActionAdapter(Accion.MENU_NUEVO));
-		m2.addActionListener(new ActionAdapter(Accion.MENU_ABRIR));
-		m3.addActionListener(new ActionAdapter(Accion.MENU_GUARDAR));
+		//Listeners de los menús
+		miNew.addActionListener(new ActionAdapter(Accion.MENU_NUEVO));
+		miOpen.addActionListener(new ActionAdapter(Accion.MENU_ABRIR));
+		miSave.addActionListener(new ActionAdapter(Accion.MENU_GUARDAR));
+		miExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ventana.dispatchEvent(new WindowEvent(ventana, WindowEvent.WINDOW_CLOSING));
+			}			
+		});
+		cbmiInvertirColores.addActionListener(new ActionAdapter(Accion.MENU_INVERTIR));
 	}
 
 	private void crearElementos() {
@@ -164,6 +193,9 @@ public class PruebaFrameSwing extends JFrame {
 		tf1 = new JTextField();		
 		tf1.setMaximumSize(new Dimension(this.getWidth(), 30));
 		
+		//area de texto
+		ta1 = new JTextArea("", 8, 70);
+	
 		//panel dibujo
 		panelDibujo = new PanelDibujo();
 		
@@ -177,8 +209,8 @@ public class PruebaFrameSwing extends JFrame {
 
 	private void inicializarFrame(String titulo) {
 		this.setTitle(titulo);
-		this.setSize(700, 600);
-		this.setLocation(250, 50);
+		this.setSize(800, 700);
+		this.setLocation(250, 20);
 		
 		//Establecer el look&feel de la ventana
 		UIManager.LookAndFeelInfo[] laf = UIManager.getInstalledLookAndFeels();
@@ -198,11 +230,21 @@ public class PruebaFrameSwing extends JFrame {
 		ventana.setResizable(true);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setStatus("Aplicacion inicializada");
-		
+		configurarListenersVentana(ventana);
 		//Todo listo. Hacemos visible la ventana
 		ventana.setVisible(true);
 	}
 	
+	private static void configurarListenersVentana(PruebaFrameSwing v) {
+		v.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);				
+			}
+		});
+		
+	}
+
 	/** Escribe un texto en la barra de estado de la ventana
 	 * 
 	 * @param status Texto a mostrar
@@ -214,6 +256,18 @@ public class PruebaFrameSwing extends JFrame {
 		}
 		l1.setText(status);
 		return true;
+	}
+	
+	public void invertirColoresTextArea () {
+		
+		if (ta1.getBackground().equals(Color.WHITE)) {	//Colores normales
+			ta1.setBackground(Color.BLACK);
+			ta1.setForeground(Color.WHITE);
+		}
+		else {
+			ta1.setBackground(Color.WHITE);
+			ta1.setForeground(Color.BLACK);
+		}
 	}
 }
 
