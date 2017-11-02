@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.junit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import eus.julenugalde.sandbox.complejos.Complejo;
 
 /** Clase de test para probar JUnit
  */
@@ -48,8 +50,8 @@ class TestComplejo {
 	}
 
 	/**
-	 * Test method for {@link eus.julenugalde.sandbox.Complejo#sumar(eus.julenugalde.sandbox.Complejo, 
-	 * eus.julenugalde.sandbox.Complejo)}.
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#sumar(eus.julenugalde.sandbox.complejos.Complejo, 
+	 * eus.julenugalde.sandbox.complejos.Complejo)}.
 	 */
 	@Test
 	void testSumarComplejoComplejo() {
@@ -61,7 +63,7 @@ class TestComplejo {
 	}
 
 	/**
-	 * Test method for {@link eus.julenugalde.sandbox.Complejo#sumar(eus.julenugalde.sandbox.Complejo)}.
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#sumar(eus.julenugalde.sandbox.complejos.Complejo)}.
 	 */
 	@Test
 	void testSumarComplejo() {
@@ -72,7 +74,7 @@ class TestComplejo {
 	}
 
 	/**
-	 * Test method for {@link eus.julenugalde.sandbox.Complejo#dividir(eus.julenugalde.sandbox.Divisible)}.
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#dividir(eus.julenugalde.sandbox.Divisible)}.
 	 */
 	@Test
 	void testDividir() {
@@ -101,7 +103,7 @@ class TestComplejo {
 	}
 
 	/**
-	 * Test method for {@link eus.julenugalde.sandbox.Complejo#inverso()}.
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#inverso()}.
 	 */
 	@Test
 	void testInverso() {

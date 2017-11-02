@@ -1,7 +1,7 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.arboles;
 
 /** Clase que define un arbol binario con elementos de tipo 
- * {@link eus.julenugalde.sandbox.Nodo}. Incluye métodos para la
+ * {@link eus.julenugalde.sandbox.arboles.Nodo}. Incluye métodos para la
  * visualización sencilla de los elementos con preorder, inorder y postorder
  * 
  * @param <E> Tipo genérico de los elementos contenidos en el nodo

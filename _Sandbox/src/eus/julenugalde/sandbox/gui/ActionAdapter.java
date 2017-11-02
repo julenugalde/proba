@@ -1,27 +1,21 @@
 package eus.julenugalde.sandbox.gui;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class ActionAdapter implements ActionListener {
-	private JLabel estado = null;
-	
+public class ActionAdapter implements ActionListener {	
+	private PruebaFrameSwing ventana;
+	private JPanel panel;
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton origen = (JButton)e.getSource();
-		JPanel panel = (JPanel)origen.getParent();
-		Component[] componentes = panel.getComponents();
-		for (Component elemento : componentes) {
-			if ((elemento != null) && (elemento instanceof JLabel)) {
-				estado = (JLabel)elemento;
-			}	
-		}
+		panel = (JPanel)origen.getParent();
+		ventana = (PruebaFrameSwing)origen.getTopLevelAncestor();
 		
 		if (origen.getName().equals("confirmation")) {	//dialogo de confirmacion
 			int respuesta = JOptionPane.showConfirmDialog(
@@ -107,12 +101,9 @@ public class ActionAdapter implements ActionListener {
 	}
 
 	private void setStatus(String string) {
-		if (estado == null) {
-			setStatus("Estado: " + string);
+		if (!ventana.setStatus(string)) {
+			System.err.println("Estado: " + string);
 		}
-		else
-			estado.setText(string);
-		
 	}
 
 }

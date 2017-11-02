@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.jerarquiaclases;
 public class A {
 	protected String x;
 	protected static int numStatic;
@@ -8,7 +8,7 @@ public class A {
 		System.out.println("Metodo static inicializado");
 	}
 	
-	A() {
+	public A() {
 		x = "Variable x en clase A";
 	}
 	

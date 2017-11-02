@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.io;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;

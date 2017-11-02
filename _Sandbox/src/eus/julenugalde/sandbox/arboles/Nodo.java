@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.arboles;
 
 /** Clase que define un nodo generico para un arbol binario */
 public class Nodo<E> {

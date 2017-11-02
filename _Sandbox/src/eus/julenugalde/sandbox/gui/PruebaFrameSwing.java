@@ -8,8 +8,10 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/** Ejemplo de GUI usando swing */
 public class PruebaFrameSwing extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
 	private JButton b1;
 	private JButton b2;
 	private JButton b3;	
@@ -21,6 +23,10 @@ public class PruebaFrameSwing extends JFrame {
 	
 	private ActionListener listenerBotones;
 	
+	/** Constructor de la ventana
+	 * 
+	 * @param titulo Titulo de la ventana
+	 */
 	public PruebaFrameSwing (String titulo) {
 		inicializarFrame(titulo);
 		crearElementos();
@@ -44,33 +50,35 @@ public class PruebaFrameSwing extends JFrame {
 		panel.add(tf1);
 		l1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(l1);
-		this.add(panel);
-		
+		this.add(panel);		
 	}
 
 	private void asignarListeners() {
+		//Listeners para los botones, que desplegarán ventanas de diálogo
 		listenerBotones = new ActionAdapter();
 		b1.addActionListener(listenerBotones);
 		b2.addActionListener(listenerBotones);
 		b3.addActionListener(listenerBotones);
 		b4.addActionListener(listenerBotones);
+		
+		//Listeners del slider. Simplemente sacan el nuevo valor en la barra de estado
 		s1.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JSlider origen = (JSlider)e.getSource();
-				System.out.println("Nuevo valor: " + origen.getValue());
+				setStatus("Nuevo valor: " + origen.getValue());
 			}			
 		});
 		s1.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				System.out.println("Propiedad cambiada " + evt.getPropertyName() + ". " + 
+				setStatus("Propiedad cambiada " + evt.getPropertyName() + ". " + 
 					evt.getOldValue() + " -> " + evt.getNewValue());				
 			}			
 		});
 		
-		tf1.addKeyListener(new AdaptadorTeclas());
-
+		//Listener para el campo de texto
+		tf1.addKeyListener(new TeclasAdapter());
 	}
 
 	private void crearElementos() {
@@ -95,8 +103,7 @@ public class PruebaFrameSwing extends JFrame {
 		tf1 = new JTextField();		
 		
 		//label de estado
-		l1 = new JLabel("xxxxxxxxxxxxx");
-		l1.setName("status");
+		l1 = new JLabel("");
 		
 		//panel contenedor
 		panel = new JPanel();
@@ -125,14 +132,21 @@ public class PruebaFrameSwing extends JFrame {
 		ventana.setEnabled(true);
 		ventana.setResizable(true);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setStatus("Aplicacion inicializada");
+	}
+	
+	/** Escribe un texto en la barra de estado de la ventana
+	 * 
+	 * @param status Texto a mostrar
+	 * @return <code>true</code> si ha sido correcto, <code>false</code> si no se ha hecho
+	 */
+	public boolean setStatus (String status) {
+		if (l1 == null) {
+			return false;
+		}
+		l1.setText(status);
+		return true;
 	}
 }
 
-class AdaptadorTeclas extends KeyAdapter {
-	@Override
-	public void keyReleased(KeyEvent e) {
-		//Convierte el texto a mayusculas
-		JTextField origen = (JTextField)e.getSource();
-		origen.setText(origen.getText().toUpperCase());
-	}
-}
+

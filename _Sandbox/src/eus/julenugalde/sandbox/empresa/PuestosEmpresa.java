@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.empresa;
 
 public enum PuestosEmpresa {
 	DIRECTOR ("Director", 80000, 100000),

@@ -1,6 +1,6 @@
 package eus.julenugalde.sandbox.designpatterns.iterator;
 
-import eus.julenugalde.sandbox.Complejo;
+import eus.julenugalde.sandbox.complejos.Complejo;
 
 /** Clase para probar el patron de diseño Iterator.
  * Extraido de {@link https://sourcemaking.com/design_patterns/iterator/java/1}

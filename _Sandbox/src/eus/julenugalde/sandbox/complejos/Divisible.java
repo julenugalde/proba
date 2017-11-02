@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.complejos;
 
 public interface Divisible {
 	public Divisible dividir (Divisible denominador) throws ArithmeticException;

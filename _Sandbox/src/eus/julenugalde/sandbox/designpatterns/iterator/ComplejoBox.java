@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import eus.julenugalde.sandbox.Complejo;
+import eus.julenugalde.sandbox.complejos.Complejo;
 
 /** Clase que implementa el patron de diseño Iterator */
 public class ComplejoBox {

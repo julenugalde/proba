@@ -1,11 +1,12 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.jerarquiaclases;
 public class B extends A {
 	private String x;
 	ClaseInterna interna;
 		
-	B() {
+	public B() {
 		setX("Variable x en clase B");
 	}
+	
 	public void metodoB() {
 		System.out.println("Metodo B ejecutado");
 	}

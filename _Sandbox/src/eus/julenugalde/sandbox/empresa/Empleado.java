@@ -1,4 +1,4 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.empresa;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

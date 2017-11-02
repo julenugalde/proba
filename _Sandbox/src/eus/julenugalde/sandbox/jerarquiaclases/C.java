@@ -1,9 +1,9 @@
-package eus.julenugalde.sandbox;
+package eus.julenugalde.sandbox.jerarquiaclases;
 public class C extends B {
 	public String x;
 	private int variablePrivada;
 	
-	C() {
+	public C() {
 		x = "Variable x en clase C";
 	}
 	

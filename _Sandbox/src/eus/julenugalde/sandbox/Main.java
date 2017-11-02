@@ -9,6 +9,15 @@ import java.util.*;
 import java.util.Date;
 
 import eus.julenugalde.sandbox.*;
+import eus.julenugalde.sandbox.arboles.ArbolBinario;
+import eus.julenugalde.sandbox.arboles.Nodo;
+import eus.julenugalde.sandbox.complejos.Complejo;
+import eus.julenugalde.sandbox.empresa.Empleado;
+import eus.julenugalde.sandbox.empresa.PuestosEmpresa;
+import eus.julenugalde.sandbox.empresa.SortedSetEmpleados;
+import eus.julenugalde.sandbox.jerarquiaclases.A;
+import eus.julenugalde.sandbox.jerarquiaclases.B;
+import eus.julenugalde.sandbox.jerarquiaclases.C;
 
 @SuppressWarnings ("unused")
 public class Main {
@@ -597,9 +606,9 @@ public class Main {
 		System.out.println ("Valor variable static: " + objC.getNumStatic());
 		A objA = new A();
 		B objB = new B();
-		System.out.println("x en A: " + objA.x);
+		System.out.println("x en A: " + objA.getX());
 		System.out.println("x en B: " + objB.getX());
-		System.out.println("x en C: " + objC.x);
+		System.out.println("x en C: " + objC.getX());
 		objC.metodoPrueba();
 		
 		A[] matriz = new A[3];
