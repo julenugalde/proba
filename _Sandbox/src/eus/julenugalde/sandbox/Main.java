@@ -25,7 +25,7 @@ public class Main {
 		//testParseoISS();
 		//testClassScanner();
 		//testFlags();
-		testHerencias();
+		//testHerencias();
 		//testClaseVector();
 		//testLeerTeclado();
 		//testCadenasTexto();
@@ -39,11 +39,9 @@ public class Main {
 		//testHashMap();
 		//testIterators();
 		//testEnums();
-		//testMySQL();
-		
-		
+		testMySQL();
 	}
-	
+
 	/** Test para probar las conexiones a una base de datos MySQL, usando una DB pública */
 	private static void testMySQL() {
 		try {
@@ -57,10 +55,52 @@ public class Main {
 			Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
 			String url = "jdbc:mysql://localhost:3306/sakila";
 			Connection con = DriverManager.getConnection(
-					url+"?verifyServerCertificate=false&useSSL=true", 	//usa SSL pero sin verificación	
+					url+"?verifyServerCertificate=false&useSSL=true", 	//usa SSL sin verificación	
 					user, password);									//del certificado
 			
-			String sql = "SELECT actor_id, first_name, last_name FROM actor where first_name=?";
+			//Ver propiedades de la conexión
+			Properties infoCliente = con.getClientInfo();
+			Enumeration<Object> htInfoCliente = infoCliente.elements();
+			Object elementoInfoCliente;
+			while (htInfoCliente.hasMoreElements()) {
+				elementoInfoCliente = htInfoCliente.nextElement();
+				System.out.println(elementoInfoCliente.toString());
+			}
+			
+			//Petición con Statement
+			Statement orden = con.createStatement(	//Solo lectura y recorrible arriba/abajo
+					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String sql = "SELECT title, length, release_year, rating, replacement_cost " +
+					"FROM film " + 
+					"JOIN film_category ON film.film_id=film_category.film_id " +
+					"JOIN category ON film_category.category_id=category.category_id " +
+					"WHERE category.name='Action'";
+			ResultSet rs = orden.executeQuery(sql);
+			
+			//Ver metadatos
+			/*ResultSetMetaData rsmd = rs.getMetaData();
+			System.out.println("TIPO\tTAMAÑO\tNOMBRE");
+			System.out.println("----------------------------------------------");
+			for (int i=1; i<=rsmd.getColumnCount(); i++) {
+				System.out.println(rsmd.getColumnTypeName(i) + "\t" + 
+						rsmd.getColumnDisplaySize(i) + "\t" + rsmd.getColumnName(i));				
+			}*/
+			
+			//Mostrar los resultados
+			System.out.println("#\tDURAC.\tAÑO\tRATING\tCOSTE\tTITULO");
+			System.out.println("--------------------------------------------------------------");
+			int cuenta = 0;
+			while (rs.next()) {
+				System.out.print(++cuenta + "\t");
+				System.out.print(rs.getInt("length") + "\t");
+				System.out.print(rs.getInt("release_year") + "\t");
+				System.out.print(rs.getString("rating") + "\t");
+				System.out.print("$" + rs.getFloat("replacement_cost") + "\t");
+				System.out.println(rs.getString("title") );
+			}
+			
+			// Petición con PreparedStatement
+			/* 	String sql = "SELECT actor_id, first_name, last_name FROM actor where first_name=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, "julia");	//también existe setInt(), setDouble(), setBigDecimal(), etc.
 			ResultSet rs = stmt.executeQuery();    
@@ -69,7 +109,7 @@ public class Main {
 			while (rs.next()) {
 				System.out.println(rs.getInt("actor_id") + "\t" + rs.getString("first_name") + 
 						"\t" + rs.getString("last_name"));
-			}
+			}*/
 			
 			con.close();
 		} catch (ClassNotFoundException e) {
