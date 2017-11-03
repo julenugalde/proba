@@ -2,11 +2,11 @@ package eus.julenugalde.sandbox.gui;
 
 import javax.swing.*;
 import javax.swing.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Scanner;
 
 /** Ejemplo de GUI usando swing */
 public class PruebaFrameSwing extends JFrame {
@@ -50,26 +50,26 @@ public class PruebaFrameSwing extends JFrame {
 		mFile.setMnemonic(KeyEvent.VK_F);		
 		
 		miNew = new JMenuItem("New");
-		miNew.setIcon(new ImageIcon("res/filenew_16_16.png"));
+		miNew.setIcon(cargarIcono("filenew_16_16.png"));
 		miNew.setMnemonic(KeyEvent.VK_N);
 		
 		miOpen = new JMenuItem("Open");
-		miOpen.setIcon(new ImageIcon("res/fileopen_16_16.png"));
+		miOpen.setIcon(cargarIcono("fileopen_16_16.png"));
 		miOpen.setMnemonic(KeyEvent.VK_O);
 		
 		miSave = new JMenuItem("Save");
-		miSave.setIcon(new ImageIcon("res/filesave_16_16.png"));
+		miSave.setIcon(cargarIcono("filesave_16_16.png"));
 		miSave.setMnemonic(KeyEvent.VK_S);
 		
 		miExit = new JMenuItem("Exit");
-		miExit.setIcon(new ImageIcon("res/exit_16_16.png"));
+		miExit.setIcon(cargarIcono("exit_16_16.png"));
 		miExit.setMnemonic(KeyEvent.VK_X);
 		
 		mOpciones = new JMenu("Options");
 		mOpciones.setMnemonic(KeyEvent.VK_P);
 		
 		cbmiInvertirColores = new JCheckBoxMenuItem("Invert colors", false);
-		cbmiInvertirColores.setIcon(new ImageIcon("res/invert_16_16.png"));
+		cbmiInvertirColores.setIcon(cargarIcono("invert_16_16.png"));
 		cbmiInvertirColores.setMnemonic(KeyEvent.VK_I);
 	}
 
@@ -93,7 +93,7 @@ public class PruebaFrameSwing extends JFrame {
 		JScrollPane jsp = new JScrollPane(ta1);
 		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		jsp.setMaximumSize(new Dimension(this.getWidth(), 400));
+		//jsp.setMaximumSize(new Dimension(this.getWidth(), 400));
 		panel.add(jsp);
 		l1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(l1);
@@ -195,6 +195,15 @@ public class PruebaFrameSwing extends JFrame {
 		
 		//area de texto
 		ta1 = new JTextArea("", 8, 70);
+		//TODO Hacer un desplegable con una lista de fuentes y asignar una al campo. String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		ta1.setFont(new Font("Arial", Font.PLAIN, 12));
+		ta1.setLineWrap(true);
+		ta1.setWrapStyleWord(true); //Hace que el salto de línea sea por palabras
+		Scanner scan = new Scanner(this.getClass().getResourceAsStream("/res/lorem.txt"));
+		while (scan.hasNextLine()) {
+			ta1.append(scan.nextLine() + System.getProperty("line.separator"));
+		}
+		scan.close();
 	
 		//panel dibujo
 		panelDibujo = new PanelDibujo();
@@ -206,11 +215,12 @@ public class PruebaFrameSwing extends JFrame {
 		panel = new JPanel();
 		//panel.setBackground(java.awt.Color.RED);
 	}
-
+	
+	/** Inicializa la ventana, incluyendo título, tamaño, look&feel... */
 	private void inicializarFrame(String titulo) {
 		this.setTitle(titulo);
-		this.setSize(800, 700);
-		this.setLocation(250, 20);
+		this.setSize(900, 700);
+		this.setLocation(350, 10);
 		
 		//Establecer el look&feel de la ventana
 		UIManager.LookAndFeelInfo[] laf = UIManager.getInstalledLookAndFeels();
@@ -233,6 +243,19 @@ public class PruebaFrameSwing extends JFrame {
 		configurarListenersVentana(ventana);
 		//Todo listo. Hacemos visible la ventana
 		ventana.setVisible(true);
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.setColor(Color.RED);
+		g.fillOval(250, 60, 200, 80);
+		g.setColor(Color.GREEN);
+		g.fillOval(275, 70, 150, 60);
+		g.setColor(Color.BLUE);
+		g.fillOval(300, 80, 100, 40);
+		g.setColor(Color.GRAY);
+		g.fillOval(325, 90, 50, 20);
 	}
 	
 	private static void configurarListenersVentana(PruebaFrameSwing v) {
@@ -258,6 +281,9 @@ public class PruebaFrameSwing extends JFrame {
 		return true;
 	}
 	
+	/** Método que invierte los colores de la TextArea, de forma que pase de fondo blanco
+	 * y letras negras a fondo negro y letras blancas.
+	 */
 	public void invertirColoresTextArea () {
 		
 		if (ta1.getBackground().equals(Color.WHITE)) {	//Colores normales
@@ -268,6 +294,16 @@ public class PruebaFrameSwing extends JFrame {
 			ta1.setBackground(Color.WHITE);
 			ta1.setForeground(Color.BLACK);
 		}
+	}
+	
+	/** Método que devuelve un icono a partir de su nombre 
+	 * 
+	 * @param nombre Nombre del fichero del icono dentro del directorio /res
+	 * @return objeto con el icono cargado
+	 */
+	private Icon cargarIcono(String nombre) {
+		java.net.URL direccion = this.getClass().getResource("/res/" + nombre);
+		return new ImageIcon(direccion);
 	}
 }
 

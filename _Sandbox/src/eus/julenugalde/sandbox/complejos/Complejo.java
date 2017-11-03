@@ -2,7 +2,8 @@ package eus.julenugalde.sandbox.complejos;
 import java.io.Serializable;
 
 /** Clase para hacer pruebas de sobrecargas de métodos, implementación de interfaces... */
-public class Complejo implements Comparable<Complejo>, Divisible, Serializable {
+public class Complejo 
+implements Aritmetico, Comparable<Complejo>, Divisible, Serializable, Operaciones<Complejo> {
 	
 	private static final long serialVersionUID = -1513517023542056859L;
 	/** Parte real */
@@ -81,10 +82,36 @@ public class Complejo implements Comparable<Complejo>, Divisible, Serializable {
 	 * Método que suma un valor al número complejo
 	 * @param comp Número complejo que se sumará
 	 */
+	@Override
 	public void sumar (Complejo comp) {
 		this.real += comp.real;
 		this.imag += comp.imag;
 		
+	}
+	
+	/**
+	 * Método que suma un valor al número complejo
+	 * @param comp Número complejo que se restará
+	 */
+	@Override
+	public void restar (Complejo comp) {
+		this.real -= comp.real;
+		this.imag -= comp.imag;
+		
+	}
+	
+	/**
+	 * Método que multiplica un valor al número complejo
+	 * @param comp Número complejo que se multiplicará
+	 */
+	@Override
+	public void multiplicar (Complejo comp) {
+		double x = this.real;
+		double y = this.imag;
+		double u = comp.real;
+		double v = comp.imag;
+		this.real = (x*u) - (y*v);
+		this.imag = (x*v) + (y*u);		
 	}
 	
 	/**

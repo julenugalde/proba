@@ -72,7 +72,29 @@ class TestComplejo {
 		comp2.sumar(comp1);
 		assertEquals(new Complejo(7,6), comp2, "El resultado de la suma de complejos es incorrecto");
 	}
-
+	
+	/**
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#restar(eus.julenugalde.sandbox.complejos.Complejo)}.
+	 */
+	@Test
+	void testRestarComplejo() {
+		Complejo comp1 = new Complejo (2, 7);
+		Complejo comp2 = new Complejo (5, -1);
+		comp2.restar(comp1);
+		assertEquals(new Complejo(3,-8), comp2, "El resultado de la resta de complejos es incorrecto");
+	}	
+	
+	/**
+	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#multiplicar(eus.julenugalde.sandbox.complejos.Complejo)}.
+	 */
+	@Test
+	void testMultiplicarComplejo() {
+		Complejo comp1 = new Complejo (3, 2);
+		Complejo comp2 = new Complejo (1, 4);
+		comp2.multiplicar(comp1);
+		assertEquals(new Complejo(-5,14), comp2, "El resultado de la multiplicación de complejos es incorrecto");
+	}
+	
 	/**
 	 * Test method for {@link eus.julenugalde.sandbox.complejos.Complejo#dividir(eus.julenugalde.sandbox.Divisible)}.
 	 */

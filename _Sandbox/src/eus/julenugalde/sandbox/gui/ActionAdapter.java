@@ -155,7 +155,7 @@ public class ActionAdapter implements ActionListener {
 	}
 
 	private void menuAbrir(ActionEvent e) {
-		//setStatus("Abrir archivo");
+		setStatus("Abrir archivo");
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView());
 		jfc.setDialogTitle("Elija archivo");
 		jfc.setCurrentDirectory(new File("C:/temp"));
@@ -163,13 +163,13 @@ public class ActionAdapter implements ActionListener {
 		switch(respuesta) {
 		case JFileChooser.APPROVE_OPTION:
 			File archivo = jfc.getSelectedFile();
-			System.out.println("Archivo seleccionado: " + archivo.getAbsolutePath());
+			setStatus("Archivo seleccionado: " + archivo.getAbsolutePath());
 			break;
 		case JFileChooser.CANCEL_OPTION:
-			System.out.println("Se eligió cancelar");
+			setStatus("Se eligió cancelar");
 			break;
 		case JFileChooser.ERROR_OPTION:
-			System.out.println("Error");
+			setStatus("Error en la apertura del archivo");
 			break;
 		}
 	}
@@ -183,7 +183,10 @@ public class ActionAdapter implements ActionListener {
 	}
 
 	private void setStatus(String string) {
-		if (!ventana.setStatus(string)) {
+		if (ventana == null) {
+			System.err.println("No se puede acceder a la ventana");
+		}
+		else if (!ventana.setStatus(string)) {
 			System.err.println("Estado: " + string);
 		}
 	}
