@@ -6,7 +6,6 @@ import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
@@ -16,14 +15,14 @@ public class ActionAdapter implements ActionListener {
 	private JPanel panelBotones;
 	private Accion accion;
 
-	public ActionAdapter (Accion accion) {
+	public ActionAdapter (Accion accion, PruebaFrameSwing ventana) {
 		this.accion = accion;
+		this.ventana = ventana;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComponent origen = (JComponent)e.getSource();
-		ventana = (PruebaFrameSwing)origen.getTopLevelAncestor();
 		switch (accion) {
 		case CONFIRMACION:
 			panelBotones = (JPanel)origen.getParent();
@@ -68,9 +67,7 @@ public class ActionAdapter implements ActionListener {
 	}
 	
 	private void menuInvertir(ActionEvent e) {
-		//TODO No me gusta porque podria haber varias ventanas abiertas --> buscar alternativa
-		PruebaFrameSwing pfs = (PruebaFrameSwing) JFrame.getFrames()[0];
-		pfs.invertirColoresTextArea();		
+		ventana.invertirColoresTextArea();		
 	}
 
 	private void buttonOpciones(ActionEvent e) {
@@ -124,8 +121,7 @@ public class ActionAdapter implements ActionListener {
 		}
 		else {	
 			setStatus("Se ha elegido el libro " + objRespuesta.toString());
-		}			
-	
+		}
 	}
 
 	private void buttonConfirmacion(ActionEvent e) {

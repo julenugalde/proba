@@ -22,6 +22,12 @@ import eus.julenugalde.sandbox.jerarquiaclases.C;
 @SuppressWarnings ("unused")
 public class Main {
 	public static void main (String args []) {
+		//////////////////// TEMPORAL //////////////////////////////////////
+		
+		
+		
+				
+		////////////////////////////////////////////////////////////////////
 		//testParseoISS();
 		//testClassScanner();
 		//testFlags();
@@ -39,7 +45,7 @@ public class Main {
 		//testHashMap();
 		//testIterators();
 		//testEnums();
-		testMySQL();
+		//testMySQL();
 	}
 
 	/** Test para probar las conexiones a una base de datos MySQL, usando una DB pública */
@@ -78,13 +84,13 @@ public class Main {
 			ResultSet rs = orden.executeQuery(sql);
 			
 			//Ver metadatos
-			/*ResultSetMetaData rsmd = rs.getMetaData();
+			ResultSetMetaData rsmd = rs.getMetaData();
 			System.out.println("TIPO\tTAMAÑO\tNOMBRE");
 			System.out.println("----------------------------------------------");
 			for (int i=1; i<=rsmd.getColumnCount(); i++) {
 				System.out.println(rsmd.getColumnTypeName(i) + "\t" + 
 						rsmd.getColumnDisplaySize(i) + "\t" + rsmd.getColumnName(i));				
-			}*/
+			}
 			
 			//Mostrar los resultados
 			System.out.println("#\tDURAC.\tAÑO\tRATING\tCOSTE\tTITULO");

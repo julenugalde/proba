@@ -6,13 +6,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /** Ejemplo de GUI usando swing */
 public class PruebaFrameSwing extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private static PruebaFrameSwing ventana;	//TODO Ver si esto tiene sentido
+	private static PruebaFrameSwing ventana;
 	private JButton b1;
 	private JButton b2;
 	private JButton b3;	
@@ -32,11 +37,14 @@ public class PruebaFrameSwing extends JFrame {
 	private JMenu mOpciones;
 	private JCheckBoxMenuItem cbmiInvertirColores;
 	
+	private static ResourceBundle bundle;
+	
 	/** Constructor de la ventana
 	 * 
 	 * @param titulo Titulo de la ventana
 	 */
 	public PruebaFrameSwing (String titulo) {
+		ventana = this;
 		inicializarFrame(titulo);
 		crearMenus();
 		crearElementos();
@@ -46,54 +54,63 @@ public class PruebaFrameSwing extends JFrame {
 	
 	private void crearMenus() {
 		menuBar = new JMenuBar();
-		mFile = new JMenu("File");
+		mFile = new JMenu();
+		mFile.setText(bundle.getString("menu.file"));
 		mFile.setMnemonic(KeyEvent.VK_F);		
 		
-		miNew = new JMenuItem("New");
+		miNew = new JMenuItem();
+		miNew.setText(bundle.getString("menu.new"));
 		miNew.setIcon(cargarIcono("filenew_16_16.png"));
 		miNew.setMnemonic(KeyEvent.VK_N);
 		
-		miOpen = new JMenuItem("Open");
+		miOpen = new JMenuItem();
+		miOpen.setText(bundle.getString("menu.open"));
 		miOpen.setIcon(cargarIcono("fileopen_16_16.png"));
 		miOpen.setMnemonic(KeyEvent.VK_O);
 		
-		miSave = new JMenuItem("Save");
+		miSave = new JMenuItem();
+		miSave.setText(bundle.getString("menu.save"));
 		miSave.setIcon(cargarIcono("filesave_16_16.png"));
 		miSave.setMnemonic(KeyEvent.VK_S);
 		
-		miExit = new JMenuItem("Exit");
+		miExit = new JMenuItem();
+		miExit.setText(bundle.getString("menu.exit"));
 		miExit.setIcon(cargarIcono("exit_16_16.png"));
 		miExit.setMnemonic(KeyEvent.VK_X);
 		
-		mOpciones = new JMenu("Options");
+		mOpciones = new JMenu();
+		mOpciones.setText(bundle.getString("menu.options"));
 		mOpciones.setMnemonic(KeyEvent.VK_P);
 		
-		cbmiInvertirColores = new JCheckBoxMenuItem("Invert colors", false);
+		cbmiInvertirColores = new JCheckBoxMenuItem("", false);
+		cbmiInvertirColores.setText(bundle.getString("menu.invert"));
 		cbmiInvertirColores.setIcon(cargarIcono("invert_16_16.png"));
 		cbmiInvertirColores.setMnemonic(KeyEvent.VK_I);
 	}
 
 	private void anadirElementosVentana() {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		b1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-		panel.add(b1);
-		b2.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-		panel.add(b2);
-		b3.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-		panel.add(b3);
-		b4.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-		panel.add(b4);
-		s1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		
+		JPanel panelBotones = new JPanel(new FlowLayout());
+		panelBotones.setBackground(Color.DARK_GRAY);
+		panelBotones.add(b1);
+		panelBotones.add(b2);
+		panelBotones.add(b3);
+		panelBotones.add(b4);
+		//panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		panel.add(panelBotones);
+		
+		//s1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(s1);
-		tf1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		//tf1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(tf1);
-		panelDibujo.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		//panelDibujo.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(panelDibujo);
 		ta1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		JScrollPane jsp = new JScrollPane(ta1);
 		jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		//jsp.setMaximumSize(new Dimension(this.getWidth(), 400));
+		jsp.setMaximumSize(new Dimension(this.getWidth(), 400));
 		panel.add(jsp);
 		l1.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		panel.add(l1);
@@ -114,7 +131,7 @@ public class PruebaFrameSwing extends JFrame {
 
 	private void asignarListeners() {
 		//Listeners para los botones, que desplegarán ventanas de diálogo
-		b1.addActionListener(new ActionAdapter(Accion.CONFIRMACION));	
+		b1.addActionListener(new ActionAdapter(Accion.CONFIRMACION, ventana));	
 		b1.addActionListener(new ActionListener() {	//Otros listener para el mismo Button
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +143,7 @@ public class PruebaFrameSwing extends JFrame {
 			}
 		});
 		
-		b2.addActionListener(new ActionAdapter(Accion.ENTRADA));
+		b2.addActionListener(new ActionAdapter(Accion.ENTRADA, ventana));
 		b2.addActionListener(new ActionListener() {	//Segundo listener
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -138,8 +155,8 @@ public class PruebaFrameSwing extends JFrame {
 			}
 		});
 		
-		b3.addActionListener(new ActionAdapter(Accion.MENSAJE));
-		b4.addActionListener(new ActionAdapter(Accion.OPCIONES));
+		b3.addActionListener(new ActionAdapter(Accion.MENSAJE, ventana));
+		b4.addActionListener(new ActionAdapter(Accion.OPCIONES, ventana));
 		
 		//Listeners del slider. Simplemente sacan el nuevo valor en la barra de estado
 		s1.addChangeListener(new ChangeListener() {
@@ -161,25 +178,30 @@ public class PruebaFrameSwing extends JFrame {
 		tf1.addKeyListener(new TeclasAdapter());
 		
 		//Listeners de los menús
-		miNew.addActionListener(new ActionAdapter(Accion.MENU_NUEVO));
-		miOpen.addActionListener(new ActionAdapter(Accion.MENU_ABRIR));
-		miSave.addActionListener(new ActionAdapter(Accion.MENU_GUARDAR));
+		miNew.addActionListener(new ActionAdapter(Accion.MENU_NUEVO, ventana));
+		miOpen.addActionListener(new ActionAdapter(Accion.MENU_ABRIR, ventana));
+		miSave.addActionListener(new ActionAdapter(Accion.MENU_GUARDAR, ventana));
 		miExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ventana.dispatchEvent(new WindowEvent(ventana, WindowEvent.WINDOW_CLOSING));
+				//(JFrame.getFrames()[0]).dispose();
+				ventana.dispose();
 			}			
 		});
-		cbmiInvertirColores.addActionListener(new ActionAdapter(Accion.MENU_INVERTIR));
+		cbmiInvertirColores.addActionListener(new ActionAdapter(Accion.MENU_INVERTIR, ventana));
 	}
 
 	private void crearElementos() {
 		//Botones que crean los dialogos
-		b1 = new JButton("ConfirmDialog");
-		b2 = new JButton("InputDialog");
-		b3 = new JButton("MessageDialog");
+		b1 = new JButton("");
+		b1.setText(bundle.getString("button.confirm"));
+		b2 = new JButton("");
+		b2.setText(bundle.getString("button.input"));
+		b3 = new JButton("");
+		b3.setText(bundle.getString("button.message"));
 		b3.setName("message");
-		b4 = new JButton("OptionsDialog");
+		b4 = new JButton("");
+		b4.setText(bundle.getString("button.options"));
 		b4.setName("options");
 
 		//slider
@@ -191,11 +213,10 @@ public class PruebaFrameSwing extends JFrame {
 		
 		//campo de texto
 		tf1 = new JTextField();		
-		tf1.setMaximumSize(new Dimension(this.getWidth(), 30));
+		tf1.setMaximumSize(new Dimension(this.getWidth(), 40));
 		
 		//area de texto
 		ta1 = new JTextArea("", 8, 70);
-		//TODO Hacer un desplegable con una lista de fuentes y asignar una al campo. String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		ta1.setFont(new Font("Arial", Font.PLAIN, 12));
 		ta1.setLineWrap(true);
 		ta1.setWrapStyleWord(true); //Hace que el salto de línea sea por palabras
@@ -234,7 +255,12 @@ public class PruebaFrameSwing extends JFrame {
 	}
 
 	public static void main (String[] args) {
-		PruebaFrameSwing ventana = new PruebaFrameSwing("prueba swing");
+		Locale locale = new Locale("eu", "ES");
+		bundle = ResourceBundle.getBundle(
+				"eus.julenugalde.sandbox.localization.PruebaFrameSwing", locale);
+		
+		PruebaFrameSwing ventana = 
+				new PruebaFrameSwing(bundle.getString("window.title"));
 		ventana.setVisible(false);	//Ocultamos la ventana mientras se inicializa
 		ventana.setEnabled(true);
 		ventana.setResizable(true);
@@ -243,19 +269,23 @@ public class PruebaFrameSwing extends JFrame {
 		configurarListenersVentana(ventana);
 		//Todo listo. Hacemos visible la ventana
 		ventana.setVisible(true);
+		
+		String saludo = MessageFormat.format(bundle.getString("text.greeting"), 
+				"Julen", new SimpleDateFormat("YYYY-MM-dd").format(new Date()));
+		System.out.println(saludo);
 	}
 	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.RED);
-		g.fillOval(250, 60, 200, 80);
+		g.fillOval(250, 160, 200, 80);
 		g.setColor(Color.GREEN);
-		g.fillOval(275, 70, 150, 60);
+		g.fillOval(275, 170, 150, 60);
 		g.setColor(Color.BLUE);
-		g.fillOval(300, 80, 100, 40);
+		g.fillOval(300, 180, 100, 40);
 		g.setColor(Color.GRAY);
-		g.fillOval(325, 90, 50, 20);
+		g.fillOval(325, 190, 50, 20);
 	}
 	
 	private static void configurarListenersVentana(PruebaFrameSwing v) {
