@@ -9,12 +9,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 
 /** Aplicación que utiliza los datos de la base de datos world para mostrar en una JTable
@@ -30,7 +30,7 @@ public class VisorCiudades extends JFrame {
 	private JTable jtCiudades;
 	private JLabel jlEstado;
 	
-	private Connection connection;
+	private DataSource dataSource;
 	private ArrayList<Pais> listaPaises;
 	private ArrayList<Ciudad> listaCiudades;
 	private ModeloTablaCiudades modeloTablaCiudades;
@@ -54,6 +54,7 @@ public class VisorCiudades extends JFrame {
 
 	private void cerrarConexion() {
 		try {
+			Connection connection = dataSource.getConnection();
 			if ((connection != null) | (!connection.isClosed())) {
 				connection.close();
 			}
@@ -78,6 +79,8 @@ public class VisorCiudades extends JFrame {
 	private void cargarDatosPaises() {
 		try {
 			//Petición con Statement
+			Connection connection = dataSource.getConnection();
+
 			Statement orden = connection.createStatement();
 			String sql = "SELECT code, name FROM country ORDER BY Population DESC";
 			ResultSet rs = orden.executeQuery(sql);
@@ -103,19 +106,25 @@ public class VisorCiudades extends JFrame {
 			BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
 			String password = br.readLine();
 		
-			Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
+			/*Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
 			String url = "jdbc:mysql://localhost:3306/world";
 			connection = DriverManager.getConnection(
 				url+"?verifyServerCertificate=false&useSSL=true", 	//usa SSL sin verificación	
 				user, password);									//del certificado
-
+			*/
+			dataSource = new DataSourceWorld();
+			Connection connection = dataSource.getConnection(user, password);
+			if (connection == null) {
+				System.err.println("Error en la conexion");
+				this.dispose();
+			}
 		} catch (IOException ioex) {
 			System.err.println("Error I/O: " + ioex.getLocalizedMessage());			
 		} catch (SQLException sqlex) {	
 			System.err.println("Error SQL: " + sqlex.getLocalizedMessage());			
-		} catch (ClassNotFoundException cnfex) {	
+		} /*catch (ClassNotFoundException cnfex) {	
 			System.err.println("Error SQL: " + cnfex.getLocalizedMessage());			
-		} finally {
+		}*/ finally {
 			this.dispose();
 		}
 	}
@@ -184,6 +193,8 @@ public class VisorCiudades extends JFrame {
 		}
 		
 		try {
+			Connection connection = dataSource.getConnection();
+
 			if ((connection == null) | connection.isClosed()) {
 				iniciarConexion();
 			}

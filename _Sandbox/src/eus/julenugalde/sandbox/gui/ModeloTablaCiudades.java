@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 /** Modelo para la JTable en la que se muestra la información de ciudades */
 public class ModeloTablaCiudades extends AbstractTableModel {
@@ -32,10 +31,10 @@ public class ModeloTablaCiudades extends AbstractTableModel {
 
 	@Override
 	public void addTableModelListener(TableModelListener arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getColumnClass(int arg0) {
 		return getValueAt(0, arg0).getClass();		
@@ -68,7 +67,6 @@ public class ModeloTablaCiudades extends AbstractTableModel {
 
 	@Override
 	public void removeTableModelListener(TableModelListener arg0) {
-		// TODO Auto-generated method stub
 
 	}
 

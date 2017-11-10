@@ -1,6 +1,6 @@
 package eus.julenugalde.sandbox.gui;
 
-public class Pais {	//TODO incluir mas informacion del pais
+public class Pais {	
 	private String code;
 	private String name;
 	

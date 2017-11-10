@@ -8,6 +8,10 @@ import java.time.Month;
 import java.util.*;
 import java.util.Date;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
+
 import eus.julenugalde.sandbox.*;
 import eus.julenugalde.sandbox.arboles.ArbolBinario;
 import eus.julenugalde.sandbox.arboles.Nodo;
@@ -46,7 +50,71 @@ public class Main {
 		//testIterators();
 		//testEnums();
 		//testMySQL();
+		testApacheBasicDataSource();
 	}
+
+	private static void testApacheBasicDataSource() {
+		Connection con = null;
+		PreparedStatement stm = null;
+		
+		try {
+			String user = "julen";
+			System.out.print("Password: ");
+			BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
+			String password = br.readLine();
+			
+			BasicDataSource dataSource = new BasicDataSource();
+			dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+			dataSource.setUrl("jdbc:mysql://localhost:3306/world" + 
+					"?autoReconnect=true&useSSL=false");
+			dataSource.setUsername(user);
+			dataSource.setPassword(password);
+			
+			con = dataSource.getConnection();
+			stm = con.prepareStatement("SELECT * FROM country");
+			ResultSet rs = stm.executeQuery();
+			
+			//Ver metadatos
+			/*ResultSetMetaData rsmd = rs.getMetaData();
+			System.out.println("TIPO\tTAMAÑO\tNOMBRE");
+			System.out.println("----------------------------------------------");
+			for (int i=1; i<=rsmd.getColumnCount(); i++) {
+				System.out.println(rsmd.getColumnTypeName(i) + "\t" + 
+						rsmd.getColumnDisplaySize(i) + "\t" + rsmd.getColumnName(i));				
+			}*/
+			
+			//Mostrar los resultados
+			System.out.println("#\tNOMBRE\tREGION\tSUPERFICIE\tPOBLACION\tGNP");
+			System.out.println("--------------------------------------------------------------");
+			int cuenta = 0;
+			while (rs.next()) {
+				System.out.print(++cuenta + "\t");
+				System.out.print(rs.getString("Name") + "\t");
+				System.out.print(rs.getString("Region") + "\t");
+				System.out.print(rs.getFloat("SurfaceArea") + " km^2\t");
+				System.out.print(rs.getInt("Population") + "\t");
+				System.out.println("$" + rs.getFloat("GNP") );
+			}
+			
+			
+		} catch (IOException e) {
+			System.err.println("I/O error: " + e.getMessage());;
+		} catch (SQLException e) {
+			System.err.println("SQL exception: " + e.getMessage());
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException e) {
+				System.err.println("Error cerrando conexiones: " + e.getSQLState());
+			}
+		}
+	}
+
 
 	/** Test para probar las conexiones a una base de datos MySQL, usando una DB pública */
 	private static void testMySQL() {
