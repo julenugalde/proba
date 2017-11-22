@@ -1,6 +1,7 @@
 package eus.julenugalde.sandbox;
 import java.io.*;
 import java.lang.reflect.*;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.text.*;
@@ -29,12 +30,10 @@ public class Main {
 		//////////////////// TEMPORAL //////////////////////////////////////
 		
 		
-		
-				
 		////////////////////////////////////////////////////////////////////
 		//testParseoISS();
 		//testClassScanner();
-		//testFlags();
+		testFlags();
 		//testHerencias();
 		//testClaseVector();
 		//testLeerTeclado();
@@ -50,7 +49,7 @@ public class Main {
 		//testIterators();
 		//testEnums();
 		//testMySQL();
-		testApacheBasicDataSource();
+		//testApacheBasicDataSource();
 	}
 
 	private static void testApacheBasicDataSource() {
@@ -740,7 +739,7 @@ public class Main {
 
 	/** test flags */
 	private static void testFlags() {
-		System.out.print("Introducir número entero entre -127 y 127: ");
+		System.out.print("Introducir número entero entre -127 y 126: ");
 		Scanner sc = new Scanner(System.in);
 		String cadena = sc.nextLine();
 		
@@ -748,34 +747,40 @@ public class Main {
 			int entero = Integer.parseInt(cadena);
 			if (entero < -127)
 				System.err.println("Error: el número no puede ser menor que -127");
-			else if (entero > 127)
-				System.err.println("Error: el número no puede ser mayor que 127");
+			else if (entero > 126)
+				System.err.println("Error: el número no puede ser mayor que 126");
 			else {
 				byte dato = new Byte(cadena);
-				System.out.println("Representacion de " + entero + " en binario: " + byteStringFormat(dato));
+				System.out.println("Representacion de " + entero + " en binario: \t\t\t(" + 
+						byteStringFormat(dato) + ")");
 				
 				byte temp = (byte) (dato>>1 & 0xFF);
-				System.out.println ("Desplazamiento de una posicion a la derecha: " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Desplazamiento de una posicion a la derecha: " + 
+						String.valueOf(temp) + " \t(" + byteStringFormat(temp) + ")");
+				temp = (byte) ((dato>>>1) & 0xFF);
+				System.out.println ("Desplazamiento a la derecha sin signo: " + 
+						String.valueOf(temp) + " \t\t(" + byteStringFormat(temp) + ")");
 				temp = (byte) (dato>>2 & 0xFF);
-				System.out.println ("Desplazamiento de dos posiciones a la derecha: " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Desplazamiento de dos posiciones a la derecha: " + 
+						String.valueOf(temp) + " \t(" + byteStringFormat(temp) + ")");
 				temp = (byte) (dato<<3 & 0xFF);
-				System.out.println ("Desplazamiento de tres posiciones a la izquierda: " + String.valueOf(temp) + 
-						" (" + byteStringFormat(temp) + ")");
+				System.out.println ("Desplazamiento de tres posiciones a la izquierda: " + 
+						String.valueOf(temp) + " \t(" + byteStringFormat(temp) + ")");
 				byte mascara = (byte) 0x0A;
 				temp = (byte)((dato & mascara) & 0xFF);
-				System.out.println ("Operacion AND con la máscara " + byteStringFormat(mascara) + " : " + 
-						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion AND con la máscara " + byteStringFormat(mascara) + 
+						" : " + String.valueOf(temp) + " \t\t(" + byteStringFormat(temp) + ")");
 				temp = (byte)((dato | mascara) & 0xFF);
-				System.out.println ("Operacion OR con la máscara " + byteStringFormat(mascara) + " : " + 
-						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion OR con la máscara " + byteStringFormat(mascara) + 
+						" : " + String.valueOf(temp) + " \t\t(" + byteStringFormat(temp) + ")");
 				temp = (byte)((dato ^ mascara) & 0xFF);
-				System.out.println ("Operacion XOR con la máscara " + byteStringFormat(mascara) + " : " + 
-						String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
+				System.out.println ("Operacion XOR con la máscara " + byteStringFormat(mascara) + 
+						" : " + String.valueOf(temp) + " \t"
+								+ "\t(" + byteStringFormat(temp) + ")");
 				
 				temp = (byte) ((~dato) & 0xFF);
-				System.out.println ("Complemento a 1: " + String.valueOf(temp) + " (" + byteStringFormat(temp) + ")");
+				System.out.println ("Complemento a 1: " + String.valueOf(temp) + " \t\t\t\t\t(" + 
+						byteStringFormat(temp) + ")");
 				
 			}
 		} catch (NumberFormatException nfex) {
