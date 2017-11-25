@@ -1,6 +1,6 @@
 package eus.julenugalde.thinkinginjava.chapter07;
 
-public abstract class Event {
+public abstract class Event implements Comparable <Event>{
 	private long evtTime;
 	public Event(long eventTime) {
 		evtTime = eventTime;
@@ -11,4 +11,10 @@ public abstract class Event {
 	
 	abstract public void action();
 	abstract public String description();
+	
+	public int compareTo(Event e) {
+		if (e == null) return -1;
+		if (evtTime == e.evtTime) return 0;
+		return -1;
+	}
 }

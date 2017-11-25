@@ -1,5 +1,6 @@
 package eus.julenugalde.thinkinginjava.chapter07;
 
+@SuppressWarnings("unused")
 public class GreenhouseControls extends Controller {
 	private boolean light = false;
 	private boolean water = false;
