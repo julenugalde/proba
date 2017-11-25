@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter4;
+package eus.julenugalde.thinkinginjava.chapter04;
 
 import java.util.Random;
 

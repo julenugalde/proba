@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter5;
+package eus.julenugalde.thinkinginjava.chapter05;
 
 public class Exercise2 {
 	protected int i = 0;

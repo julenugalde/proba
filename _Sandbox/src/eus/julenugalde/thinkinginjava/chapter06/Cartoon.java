@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter6;
+package eus.julenugalde.thinkinginjava.chapter06;
 //: reusing/Cartoon.java
 // Constructor calls during inheritance.
 import static net.mindview.util.Print.*;
@@ -17,7 +17,8 @@ public class Cartoon extends Drawing {
   public static void main(String[] args) {
     Cartoon x = new Cartoon();
   }
-} /* Output:
+}
+/* Output:
 Art constructor
 Drawing constructor
 Cartoon constructor

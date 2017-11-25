@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter6;
+package eus.julenugalde.thinkinginjava.chapter06;
 
 public class B {
 	public B(int i) {

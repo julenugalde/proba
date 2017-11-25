@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter6;
+package eus.julenugalde.thinkinginjava.chapter06;
 
 @SuppressWarnings("unused")
 public class C extends A {

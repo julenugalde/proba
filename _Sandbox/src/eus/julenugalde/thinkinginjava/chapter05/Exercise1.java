@@ -1,4 +1,4 @@
-package eus.julenugalde.thinkinginjava.chapter5;
+package eus.julenugalde.thinkinginjava.chapter05;
 
 public class Exercise1 {
 	public int iPublic = 1;
