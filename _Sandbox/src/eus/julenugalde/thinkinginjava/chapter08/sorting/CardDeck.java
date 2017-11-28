@@ -1,6 +1,7 @@
 package eus.julenugalde.thinkinginjava.chapter08.sorting;
 
 import java.io.PrintStream;
+import java.util.Enumeration;
 import java.util.Random;
 
 public class CardDeck {
@@ -55,5 +56,14 @@ public class CardDeck {
 	
 	public Card get(int index) {
 		return (Card)deck.get(index);
+	}
+	
+	public Enumeration<Card> enumeration() {
+		return (Enumeration<Card>)deck.enumeration();
+	}
+	
+	public boolean remove(Card card) {
+		
+		return false;
 	}
 }

@@ -1,5 +1,6 @@
 package eus.julenugalde.thinkinginjava.chapter08.sorting;
 
+import java.util.Enumeration;
 import java.util.Vector;
 
 public class SortedVector<E extends Sortable>{
@@ -9,6 +10,10 @@ public class SortedVector<E extends Sortable>{
 	
 	public SortedVector () {
 		vector = new Vector<E>();
+	}
+	
+	public Enumeration<E> enumeration() {
+		return java.util.Collections.enumeration(vector);
 	}
 	
 	public void add (E element) {

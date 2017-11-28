@@ -1,6 +1,6 @@
 package eus.julenugalde.thinkinginjava.chapter08.sorting;
 
-public class Card implements Sortable {
+public class Card implements Sortable, Comparable<Card> {
 	private int number;
 	private Suit suit;
 	
@@ -87,5 +87,13 @@ public class Card implements Sortable {
 	public int hashCode() {
 		int numSuit = suit.ordinal();
 		return (numSuit*100) + number;
+	}
+
+	@Override
+	public int compareTo(Card o) {
+		Card card = (Card)o;
+		if (this.equals(card)) return 0;
+		if (this.lessThan(this, card)) return -1;
+		return 1;
 	}
 }

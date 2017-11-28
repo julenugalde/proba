@@ -29,13 +29,5 @@ public class TestSets {
 		else {
 			System.out.println("ERROR: card '" + card.toString() + "' could not be added");
 		}
-		
-		setCards.add(card); 	//Repetida
-		if (setCards.add(card)) {
-			System.out.println("Card '" + card.toString() + "' added.");
-		}
-		else {
-			System.out.println("ERROR: card '" + card.toString() + "' could not be added");
-		}
 	}
 }
