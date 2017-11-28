@@ -25,8 +25,8 @@ class Dog {
 
 public class CatsAndDogs {
 	public static void main(String[] args) {
-		//Vector<Cat> cats = new Vector<Cat>();
-		ArrayList<Cat> cats = new ArrayList<Cat>();
+		Vector<Cat> cats = new Vector<Cat>();
+		//ArrayList<Cat> cats = new ArrayList<Cat>();
 		for (int i=0; i<7; i++) {
 			cats.add(new Cat(i));
 		}
