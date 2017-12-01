@@ -1,6 +1,9 @@
 package eus.julenugalde.thinkinginjava.collections.sorting;
 
-public class Card implements Sortable, Comparable<Card> {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Card implements Sortable, Comparable<Card>, Serializable {
 	private int number;
 	private Suit suit;
 	

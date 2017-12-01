@@ -1,9 +1,11 @@
 package eus.julenugalde.thinkinginjava.collections.sorting;
 
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Vector;
 
-public class SortedVector<E extends Sortable>{
+@SuppressWarnings("serial")
+public class SortedVector<E extends Sortable> implements Serializable {
 	private boolean isSorted = false;
 	private Vector<E> vector;
 	int iteracion = 0;

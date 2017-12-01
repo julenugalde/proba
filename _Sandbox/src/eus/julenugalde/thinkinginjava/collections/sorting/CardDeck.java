@@ -1,10 +1,12 @@
 package eus.julenugalde.thinkinginjava.collections.sorting;
 
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Random;
 
-public class CardDeck {
+@SuppressWarnings("serial")
+public class CardDeck implements Serializable {
 	private SortedVector<Card> deck;
 	private Random random;
 	private int MAX_NUMBER = 12;
@@ -65,5 +67,16 @@ public class CardDeck {
 	public boolean remove(Card card) {
 		
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(NUM_CARDS + " cards in the deck: {");
+		for (int i=0; i<NUM_CARDS; i++) {
+			sb.append(get(i).toString() + ", ");
+		}
+		sb.delete(sb.length()-2, sb.length());
+		sb.append("}");
+		return sb.toString();
 	}
 }

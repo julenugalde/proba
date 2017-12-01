@@ -23,6 +23,10 @@ public class SourceFileList {
 				return false;
 			}});
 		printFileNames(list, "File names smaller that 7 characters");
+		
+		File archivo = new File("c:/temp/lorem.txt");
+		archivo.renameTo(new File("c:/temp/lorem1.txt"));
+		
 	}
 	
 	private static void printFileNames(String[] list, String message) {
