@@ -15,11 +15,14 @@ public class TestDowncast {
 		testClassLiterals();
 		
 		Elipse elipse = new Elipse();
-		Class objClass = Circle.class;
+		Class<?> objClass = Circle.class;
 		if (objClass.isInstance(elipse)) 
 			System.out.println("si");
 		else 
 			System.out.println("no");
+		Class<?> clase = elipse.getClass();
+		if (clase.isInterface()) System.out.println("interface");
+		else System.out.println("no interface");
 	}
 
 	private static void testClassLiterals() {

@@ -15,4 +15,17 @@ public class Gerbil {
 	public String toString() {
 		return "Gerbil #" + gerbilNumber;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (!(obj instanceof Gerbil)) return false;
+		Gerbil g = (Gerbil)obj;
+		return (g.gerbilNumber == this.gerbilNumber);
+	}
+	
+	@Override
+	public int hashCode() {
+		return gerbilNumber;
+	}
 }
