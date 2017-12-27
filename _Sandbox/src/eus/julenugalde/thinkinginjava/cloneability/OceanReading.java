@@ -4,7 +4,6 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-@SuppressWarnings("unused")
 public class OceanReading implements Cloneable {
 	private long time;
 	private TemperatureReading tempReading;

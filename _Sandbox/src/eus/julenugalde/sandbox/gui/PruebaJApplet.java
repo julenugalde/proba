@@ -11,11 +11,13 @@ import javax.swing.JButton;
 
 public class PruebaJApplet extends JApplet {
 	private static final long serialVersionUID = 1L;
-
+	private static Color colorTexto;
+		
 	@Override
 	public void init() {
 		super.init();
-				
+		colorTexto = Color.BLACK;		
+		
 		//Uso de la status bar para mostar texto
 		this.showStatus("variable=" + this.getParameter("variable"));
 		
@@ -33,8 +35,28 @@ public class PruebaJApplet extends JApplet {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton origen = (JButton)e.getSource();
-					((JApplet)origen.getTopLevelAncestor()).showStatus(
-							"Se ha pulsado el " + origen.getText());				
+					JApplet applet = (JApplet)origen.getTopLevelAncestor();
+					applet.showStatus(
+							"Se ha pulsado el " + origen.getText());
+					if (origen.getText().equals("boton 1")) {
+						colorTexto = Color.BLUE;
+					}
+					else if (origen.getText().equals("boton 2")) {
+						 colorTexto = Color.GREEN;
+					}
+					else if (origen.getText().equals("boton 3")) {
+						 colorTexto = Color.RED;
+					}
+					else if (origen.getText().equals("boton 4")) {
+						 colorTexto = Color.MAGENTA;
+					}
+					else if (origen.getText().equals("boton 5")) {
+						 colorTexto = Color.ORANGE;
+					}
+					else {
+						 colorTexto = Color.BLACK;
+					}
+					applet.repaint();
 				}			
 			});
 			this.add(boton);
@@ -44,7 +66,7 @@ public class PruebaJApplet extends JApplet {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(Color.RED);
+		g.setColor(colorTexto);
 		g.drawString("Prueba del método paint(Graphics) de JApplet", 50, 200);;
 	}
 	
