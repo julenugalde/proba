@@ -12,7 +12,7 @@ public class Peeker implements Runnable {
 	
 	public Peeker(Blockable b, Container c) {
 		status = new JTextField(40);
-		status.setBackground(Color.RED);
+		status.setBackground(new Color(240, 70, 70));
 		c.add(status);
 		this.blockable = b;
 		new Thread(this).start();
