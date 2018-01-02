@@ -18,11 +18,12 @@ public class LoggingDaemon implements Runnable {
 					System.err.println("Logging daemon error: Count values could not be accessed");
 				}
 				else {
-					int result = 0;
+					double reference = (double)countValues[0];
+					System.out.print(new java.util.Date().toString() + " --> ");
 					for (int i=0; i<countValues.length; i++) {
-						result += countValues[i];
+						System.out.print(i + ":" + 100*((double)countValues[i])/reference + "%  ");
 					}
-					System.out.println(new java.util.Date().toString() + " --> " + result);
+					System.out.println();
 				}
 			} catch(InterruptedException iex) {
 				System.err.println("Error with logging daemon: " + iex.getLocalizedMessage());

@@ -15,6 +15,15 @@ public class Counter implements Runnable {
 		flagCounting = counting;
 	}
 	
+	public void setPriority(int priority) {
+		if (priority < Thread.MIN_PRIORITY) 
+			priority = Thread.MIN_PRIORITY;
+		if (priority > Thread.MAX_PRIORITY)
+			priority = Thread.MAX_PRIORITY;
+		Thread.currentThread().setPriority(priority);
+		System.out.println(priority);
+	}
+	
 	@Override
 	public void run() {
 		while(true) {

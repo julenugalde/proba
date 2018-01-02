@@ -24,14 +24,18 @@ public class CounterUI extends JFrame {
 	private Thread loggingDaemon;
 	
 	public CounterUI() {
+		System.out.println("min " + Thread.MIN_PRIORITY);
+		System.out.println("max " + Thread.MAX_PRIORITY);
 		counters = new Counter[NUM_COUNTERS];
 		countValues = new int[NUM_COUNTERS];
 		for (int i=0; i<NUM_COUNTERS; i++) {
 			counters[i] = new Counter(i, this);
+			System.out.print(i + ": ");
+			counters[i].setPriority(i);
 			countValues[i] = 0;
 		}
-loggingDaemon = new Thread(new LoggingDaemon(this));
-loggingDaemon.setDaemon(true);
+		loggingDaemon = new Thread(new LoggingDaemon(this));
+		loggingDaemon.setDaemon(true);
 		
 		setTitle("Counter test");
 		setSize(900, 150);
