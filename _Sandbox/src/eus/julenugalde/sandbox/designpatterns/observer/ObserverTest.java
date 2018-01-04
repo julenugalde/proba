@@ -13,6 +13,7 @@ public class ObserverTest {
 		new BinObserver(subject);
 		new OctObserver(subject);
 		new HexObserver(subject);
+		new CharObserver(subject);
 		
 		Scanner scanner = new Scanner(System.in);
 		try {
