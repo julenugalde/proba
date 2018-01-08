@@ -3,6 +3,8 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.text.*;
 import java.time.Month;
@@ -33,7 +35,7 @@ public class Main {
 		////////////////////////////////////////////////////////////////////
 		//testParseoISS();
 		//testClassScanner();
-		testFlags();
+		//testFlags();
 		//testHerencias();
 		//testClaseVector();
 		//testLeerTeclado();
@@ -49,6 +51,7 @@ public class Main {
 		//testIterators();
 		//testEnums();
 		//testMySQL();
+		testAlmacenarPasswordDB();
 		//testApacheBasicDataSource();
 	}
 
@@ -197,7 +200,113 @@ public class Main {
 			e.printStackTrace();*/
 		}		
 	}
+	
+	public static String SHA256Hash(String cadena) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] encodedHash = digest.digest(cadena.getBytes(StandardCharsets.UTF_8));
+			StringBuffer hexString = new StringBuffer();
+			for (int i=0; i<encodedHash.length; i++) {
+				hexString.append(Integer.toHexString(0xff & encodedHash[i]));
+			}
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			return "";
+		}		
+	}
+	
+	/**
+	 * Solución cutre y algo peligrosa para validar una cadena antes de introducirla en una
+	 * DB y evitar inyecciones de código. Tampoco tiene en cuenta el tipo de DB utilizada
+	 */
+	public static String validarParaDB(String cadena) {
+		return cadena.replaceAll("[';\\\"]", "\\\\$0");
+	}
+	
+	private static void testAlmacenarPasswordDB() {
+		try {
+			String user = "julen";
+			
+			//Leer contraseña del teclado
+			System.out.print("Contraseña para acceder a la DB: ");
+			BufferedReader br = new BufferedReader(new InputStreamReader (System.in));
+			String password = br.readLine();
+			
+			Class.forName("com.mysql.jdbc.Driver");    //Registra el driver
+			String url = "jdbc:mysql://localhost:3306/usuarios";
+			Connection con = DriverManager.getConnection(
+					url+"?verifyServerCertificate=false&useSSL=true", 	//usa SSL sin verificación	
+					user, password);									//del certificado
+			
+			//Ver propiedades de la conexión
+			Properties infoCliente = con.getClientInfo();
+			Enumeration<Object> htInfoCliente = infoCliente.elements();
+			Object elementoInfoCliente;
+			while (htInfoCliente.hasMoreElements()) {
+				elementoInfoCliente = htInfoCliente.nextElement();
+				System.out.println(elementoInfoCliente.toString());
+			}
+			
+			//Ver la informacion actual en la tabla de usuarios
+			Statement orden = con.createStatement(	//Solo lectura y recorrible arriba/abajo
+					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String sql = "SELECT * FROM usuario ";
+			ResultSet rs = orden.executeQuery(sql);
+			System.out.println("ID\tNOMBRE\tPASSWORD");
+			System.out.println("--------------------------------------------------------------");
+			while (rs.next()) {
+				System.out.print(rs.getInt("id") + "\t");
+				System.out.print(rs.getString("nombre") + "\t");
+				System.out.println(rs.getString("password") );
+			}
+			System.out.println("----------------------------------------------------------");
+			
+			//Crear un nuevo usuario
+			System.out.print("Nuevo usuario: ");
+			String usuario = validarParaDB(br.readLine());
+			System.out.print("Nueva contraseña: ");
+			String pass = validarParaDB(br.readLine());
+			
+			sql = "INSERT INTO usuario (nombre, password) " + 
+					"VALUES ('" + usuario + "', '" + SHA256Hash(pass) + "')";
+			//System.out.println("SQL --> " + sql);
+			
+			int filasModificadas = orden.executeUpdate(sql);
+			if (filasModificadas != 1) {
+				System.err.println("Error al almacenar en la base de datos");
+			}
+			
+			//Validar un usuario
+			System.out.print("Entrar como usuario: ");
+			usuario = validarParaDB(br.readLine());
+			System.out.print("Introducir contraseña: ");
+			pass = validarParaDB(br.readLine());
+			
+			sql = "SELECT * FROM usuario WHERE nombre='" + usuario  + "' AND password='" + 
+					SHA256Hash(pass) + "'";
+			//System.out.println("SQL --> " + sql);
+			
+			rs = orden.executeQuery(sql);    
+			if (rs.next()) {
+				System.out.println("Credenciales válidas");
+			}
+			else {
+				System.err.println("Error de acceso");
+			}
+			
+			con.close();
+		} catch (ClassNotFoundException e) {
+			System.err.println("Class not found: " + e.getMessage());;
+		} catch (SQLException e) {
+			System.err.println("SQL exception: " + e.getMessage());
+		} catch (IOException ioex) {
+			System.err.println("Error: " + ioex.getMessage());
+		}
 
+	}
+	
+	
+	
 	/** Pruebas con enum, usando PuestosEmpresa */
 	private static void testEnums() {
 		PuestosEmpresa[] listaPuestos = PuestosEmpresa.values();
